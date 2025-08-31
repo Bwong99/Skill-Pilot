@@ -1,15 +1,10 @@
-import Hero from '@/components/Hero'
-import Dashboard from '@/components/Dashboard'
-import Features from '@/components/Features'
+import { Button } from "@/components/ui/button"
 
-export default function Welcome() {
+export default function Home() {
   return (
-    <>
-      <Hero />
-      <Dashboard />
-      <Features />
-      Hello
-    </>
+    <div>
+      <Button>Click me</Button>
+    </div>
   )
 }
 
