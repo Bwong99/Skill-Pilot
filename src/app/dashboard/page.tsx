@@ -4,6 +4,7 @@ import { useUser, UserButton } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import DeleteConfirmModal from '@/components/DeleteConfirmModal'
 
 type SkillPath = {
   id: string
@@ -28,6 +29,16 @@ export default function DashboardPage() {
   const router = useRouter()
   const [skillPaths, setSkillPaths] = useState<SkillPath[]>([])
   const [loading, setLoading] = useState(true)
+  const [deleteModal, setDeleteModal] = useState<{
+    isOpen: boolean
+    pathId: string
+    pathTitle: string
+  }>({
+    isOpen: false,
+    pathId: '',
+    pathTitle: ''
+  })
+  const [deleting, setDeleting] = useState(false)
   const [stats, setStats] = useState({
     totalPaths: 0,
     completedMilestones: 0,
@@ -87,6 +98,63 @@ export default function DashboardPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleDeleteClick = (pathId: string, pathTitle: string, e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDeleteModal({
+      isOpen: true,
+      pathId,
+      pathTitle
+    })
+  }
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteModal.pathId) return
+
+    setDeleting(true)
+    try {
+      const response = await fetch(`/api/skill-paths/${deleteModal.pathId}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to delete learning path')
+      }
+
+      // Remove from local state
+      setSkillPaths(prev => prev.filter(path => path.id !== deleteModal.pathId))
+      
+      // Recalculate stats
+      const updatedPaths = skillPaths.filter(path => path.id !== deleteModal.pathId)
+      const totalMilestones = updatedPaths.reduce((sum, path) => sum + path.milestones.length, 0)
+      const completedMilestones = updatedPaths.reduce((sum, path) => 
+        sum + path.milestones.filter((m: any) => m.completed).length, 0
+      )
+      const avgProgress = totalMilestones > 0 ? (completedMilestones / totalMilestones) * 100 : 0
+
+      setStats({
+        totalPaths: updatedPaths.length,
+        completedMilestones,
+        totalMilestones,
+        avgProgress: Math.round(avgProgress)
+      })
+
+      // Close modal
+      setDeleteModal({ isOpen: false, pathId: '', pathTitle: '' })
+      
+    } catch (error: any) {
+      console.error('Error deleting path:', error)
+      alert(`Error: ${error.message}`)
+    } finally {
+      setDeleting(false)
+    }
+  }
+
+  const handleDeleteCancel = () => {
+    setDeleteModal({ isOpen: false, pathId: '', pathTitle: '' })
   }
 
   if (!isLoaded || loading) {
@@ -269,7 +337,8 @@ export default function DashboardPage() {
                             {path.skill?.category} • {path.target_duration_weeks} weeks • {path.difficulty_level}
                           </p>
                         </div>
-                        <div className="ml-4">
+                        <div className="ml-4 flex items-start space-x-3">
+                          {/* Progress Display */}
                           <div className="text-right">
                             <div className="text-2xl font-bold text-indigo-600">
                               {Math.round(progress)}%
@@ -278,6 +347,16 @@ export default function DashboardPage() {
                               complete
                             </div>
                           </div>
+                          {/* Delete Button */}
+                          <button
+                            onClick={(e) => handleDeleteClick(path.id, path.title, e)}
+                            className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                            title="Delete learning path"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
                         </div>
                       </div>
 
@@ -361,6 +440,15 @@ export default function DashboardPage() {
           </div>
         </div>
       </main>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={deleteModal.isOpen}
+        onClose={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        pathTitle={deleteModal.pathTitle}
+        isDeleting={deleting}
+      />
     </div>
   )
 }

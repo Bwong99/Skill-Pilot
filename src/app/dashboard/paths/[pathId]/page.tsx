@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import DeleteConfirmModal from '@/components/DeleteConfirmModal'
 
 type SkillPath = {
   id: string
@@ -31,6 +32,19 @@ type Milestone = {
     type: string
     title: string
     description?: string
+    url?: string
+    duration?: string
+    difficulty?: 'beginner' | 'intermediate' | 'advanced'
+    platform?: string
+    section?: string
+    chapter?: string
+  }>
+  exercises?: Array<{
+    title: string
+    description: string
+    difficulty: 'easy' | 'medium' | 'hard'
+    estimated_time: string
+    type: 'coding' | 'reading' | 'practice' | 'project'
   }>
 }
 
@@ -42,6 +56,8 @@ export default function SkillPathPage() {
   const [milestones, setMilestones] = useState<Milestone[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   
   const supabase = createClientComponentClient()
 
@@ -115,6 +131,32 @@ export default function SkillPathPage() {
       ))
     } catch (error) {
       console.error('Error updating milestone:', error)
+    }
+  }
+
+  const handleDeletePath = async () => {
+    if (!skillPath) return
+
+    setDeleting(true)
+    try {
+      const response = await fetch(`/api/skill-paths/${skillPath.id}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to delete learning path')
+      }
+
+      // Navigate back to dashboard
+      router.push('/dashboard')
+      
+    } catch (error: any) {
+      console.error('Error deleting path:', error)
+      alert(`Error: ${error.message}`)
+    } finally {
+      setDeleting(false)
+      setDeleteModal(false)
     }
   }
 
@@ -230,24 +272,123 @@ export default function SkillPathPage() {
                       {milestone.description}
                     </p>
                     
-                    {/* Resources */}
+                    {/* Enhanced Resources Section */}
                     {milestone.resources && milestone.resources.length > 0 && (
-                      <div className="mt-3">
-                        <h4 className="text-sm font-medium text-gray-900 mb-2">Resources:</h4>
-                        <ul className="space-y-1">
+                      <div className="mt-4">
+                        <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
+                          📚 Learning Resources
+                        </h4>
+                        <div className="grid gap-3">
                           {milestone.resources.map((resource, resourceIndex) => (
-                            <li key={resourceIndex} className="text-sm text-gray-600 flex items-center">
-                              <span className="mr-2">
-                                {resource.type === 'video' && '🎥'}
-                                {resource.type === 'article' && '📖'}
-                                {resource.type === 'book' && '📚'}
-                                {resource.type === 'practice' && '💻'}
-                                {resource.type === 'project' && '🚀'}
-                              </span>
-                              {resource.title}
-                            </li>
+                            <div key={resourceIndex} className="bg-gray-50 rounded-lg p-3 border">
+                              <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                  <div className="flex items-center space-x-2 mb-1">
+                                    <span className="text-lg">
+                                      {resource.type === 'video' && '🎥'}
+                                      {resource.type === 'article' && '📖'}
+                                      {resource.type === 'book' && '📚'}
+                                      {resource.type === 'practice' && '💻'}
+                                      {resource.type === 'project' && '🚀'}
+                                      {resource.type === 'documentation' && '📋'}
+                                      {resource.type === 'course' && '🎓'}
+                                      {resource.type === 'tutorial' && '👨‍💻'}
+                                    </span>
+                                    {resource.url ? (
+                                      <a 
+                                        href={resource.url} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="text-sm font-medium text-indigo-600 hover:text-indigo-500 hover:underline"
+                                      >
+                                        {resource.title}
+                                      </a>
+                                    ) : (
+                                      <span className="text-sm font-medium text-gray-900">
+                                        {resource.title}
+                                      </span>
+                                    )}
+                                    {resource.url && (
+                                      <span className="text-xs text-indigo-500">↗</span>
+                                    )}
+                                  </div>
+                                  
+                                  {resource.description && (
+                                    <p className="text-xs text-gray-600 mb-2">{resource.description}</p>
+                                  )}
+                                  
+                                  <div className="flex flex-wrap gap-2 text-xs">
+                                    {resource.platform && (
+                                      <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                                        {resource.platform}
+                                      </span>
+                                    )}
+                                    {resource.duration && (
+                                      <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                                        ⏱️ {resource.duration}
+                                      </span>
+                                    )}
+                                    {resource.difficulty && (
+                                      <span className={`px-2 py-1 rounded-full ${
+                                        resource.difficulty === 'beginner' 
+                                          ? 'bg-green-100 text-green-700'
+                                          : resource.difficulty === 'intermediate'
+                                          ? 'bg-yellow-100 text-yellow-700'
+                                          : 'bg-red-100 text-red-700'
+                                      }`}>
+                                        {resource.difficulty}
+                                      </span>
+                                    )}
+                                    {resource.section && (
+                                      <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                                        📖 {resource.section}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           ))}
-                        </ul>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Exercises Section */}
+                    {milestone.exercises && milestone.exercises.length > 0 && (
+                      <div className="mt-4">
+                        <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
+                          💪 Practice Exercises
+                        </h4>
+                        <div className="grid gap-2">
+                          {milestone.exercises.map((exercise, exerciseIndex) => (
+                            <div key={exerciseIndex} className="bg-indigo-50 rounded-lg p-3 border border-indigo-200">
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="text-sm font-medium text-indigo-900">
+                                  {exercise.type === 'coding' && '💻'} 
+                                  {exercise.type === 'practice' && '🔄'} 
+                                  {exercise.type === 'project' && '🚀'} 
+                                  {exercise.type === 'reading' && '📖'} 
+                                  {exercise.title}
+                                </span>
+                                <div className="flex gap-1">
+                                  <span className={`text-xs px-2 py-1 rounded-full ${
+                                    exercise.difficulty === 'easy' 
+                                      ? 'bg-green-100 text-green-700'
+                                      : exercise.difficulty === 'medium'
+                                      ? 'bg-yellow-100 text-yellow-700'
+                                      : 'bg-red-100 text-red-700'
+                                  }`}>
+                                    {exercise.difficulty}
+                                  </span>
+                                  <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                                    ⏱️ {exercise.estimated_time}
+                                  </span>
+                                </div>
+                              </div>
+                              <p className="text-xs text-indigo-700">{exercise.description}</p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>

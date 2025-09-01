@@ -11,10 +11,22 @@ export interface LearningMilestone {
   week_number: number
   estimated_hours: number
   resources: Array<{
-    type: 'video' | 'article' | 'book' | 'practice' | 'project'
+    type: 'video' | 'article' | 'book' | 'practice' | 'project' | 'documentation' | 'course' | 'tutorial'
     title: string
     description?: string
     url?: string
+    duration?: string
+    difficulty?: 'beginner' | 'intermediate' | 'advanced'
+    platform?: string
+    section?: string
+    chapter?: string
+  }>
+  exercises: Array<{
+    title: string
+    description: string
+    difficulty: 'easy' | 'medium' | 'hard'
+    estimated_time: string
+    type: 'coding' | 'reading' | 'practice' | 'project'
   }>
 }
 
@@ -40,34 +52,82 @@ export async function generateLearningPath({
 
 ${userContext ? `Additional context: ${userContext}` : ''}
 
-Please provide:
-1. A compelling title for this learning path
-2. A detailed description explaining what the learner will achieve
-3. Weekly milestones that progressively build skills
+IMPORTANT: Provide REAL, SPECIFIC, ACTIONABLE resources with actual URLs when possible. Don't use placeholder links.
 
 For each milestone, include:
-- Clear, actionable title
-- Detailed description of what to learn and practice
-- Realistic time estimate (3-12 hours per week)
-- Specific learning resources with types (video, article, book, practice, project)
+1. Clear, actionable title
+2. Detailed description of what to learn and practice
+3. Realistic time estimate (3-12 hours per week)
+4. SPECIFIC learning resources with REAL URLs when available:
+   - Official documentation links (specific sections/chapters)
+   - YouTube video tutorials (with actual video titles/creators)
+   - Online courses (Coursera, Udemy, freeCodeCamp, etc.)
+   - GitHub repositories with practical examples
+   - Interactive coding platforms (CodePen, JSFiddle, Repl.it)
+   - Specific book chapters or articles
+5. Practical exercises with clear difficulty levels
+6. Real-world project ideas
 
-Make the content practical, engaging, and tailored to ${difficulty} learners. Include hands-on projects and real-world applications.
+RESOURCE GUIDELINES:
+- For programming: Include official docs, MDN, Stack Overflow, GitHub repos
+- For courses: Mention specific Coursera, edX, Udemy, or YouTube channels
+- For practice: Include HackerRank, LeetCode, Codewars, or similar platforms
+- For projects: Suggest real applications people can build
+- Include platform names (YouTube, GitHub, MDN, etc.)
 
-Format as JSON with this structure:
+Format as JSON with this enhanced structure:
 {
-  "title": "Learning Path Title",
-  "description": "Detailed description of the learning journey and outcomes",
+  "title": "Comprehensive Learning Path Title",
+  "description": "Detailed description of the learning journey and real-world outcomes",
   "milestones": [
     {
-      "title": "Week 1: Foundation",
-      "description": "Detailed description of what to learn this week",
+      "title": "Week 1: Foundation Building",
+      "description": "Detailed description of what to learn this week and why it matters",
       "week_number": 1,
       "estimated_hours": 8,
       "resources": [
         {
+          "type": "documentation",
+          "title": "Official Python Documentation - Data Types",
+          "description": "Learn about built-in data types",
+          "url": "https://docs.python.org/3/library/stdtypes.html",
+          "platform": "Python.org",
+          "section": "Built-in Types",
+          "duration": "45 minutes",
+          "difficulty": "beginner"
+        },
+        {
           "type": "video",
-          "title": "Resource Title",
-          "description": "What this resource covers"
+          "title": "Python Variables and Data Types - Programming with Mosh",
+          "description": "Visual explanation of Python basics",
+          "url": "https://www.youtube.com/watch?v=_Z1hwHbsOKI",
+          "platform": "YouTube",
+          "duration": "20 minutes",
+          "difficulty": "beginner"
+        },
+        {
+          "type": "practice",
+          "title": "Python Exercises on HackerRank",
+          "description": "Practice basic Python syntax",
+          "url": "https://www.hackerrank.com/domains/python",
+          "platform": "HackerRank",
+          "difficulty": "beginner"
+        }
+      ],
+      "exercises": [
+        {
+          "title": "Build a Simple Calculator",
+          "description": "Create a calculator that performs basic operations",
+          "difficulty": "easy",
+          "estimated_time": "2-3 hours",
+          "type": "project"
+        },
+        {
+          "title": "Data Type Practice Problems",
+          "description": "Complete 10 problems on variables and data types",
+          "difficulty": "easy",
+          "estimated_time": "1-2 hours",
+          "type": "coding"
         }
       ]
     }
@@ -133,17 +193,32 @@ function generateFallbackPath(skillName: string, duration: number, difficulty: s
         {
           type: 'article' as const,
           title: `${skillName} Basics - Week ${week}`,
-          description: `Essential reading material for week ${week}`
+          description: `Essential reading material for week ${week}`,
+          url: `https://example.com/${skillName.toLowerCase()}-week-${week}`,
+          platform: 'Documentation'
         },
         {
           type: 'practice' as const,
           title: `Hands-on Practice`,
-          description: `Coding exercises and practical tasks`
+          description: `Coding exercises and practical tasks`,
+          difficulty: 'beginner' as const,
+          duration: '2-3 hours'
         },
         {
           type: 'project' as const,
           title: `Mini Project`,
-          description: `Apply your learning with a small project`
+          description: `Apply your learning with a small project`,
+          difficulty: 'beginner' as const,
+          duration: '3-4 hours'
+        }
+      ],
+      exercises: [
+        {
+          title: `Week ${week} Practice`,
+          description: `Complete exercises to reinforce ${skillName} concepts`,
+          difficulty: 'easy' as const,
+          estimated_time: '1-2 hours',
+          type: 'practice' as const
         }
       ]
     }))
