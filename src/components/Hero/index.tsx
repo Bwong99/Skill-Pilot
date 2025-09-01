@@ -43,14 +43,14 @@ const Hero = () => {
   }
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 py-20 sm:py-24 lg:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 min-h-[calc(100vh-80px)] flex flex-col">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 flex-1 flex flex-col justify-center py-8">
         <div className="mx-auto max-w-2xl text-center">
           {renderContent()}
         </div>
         
         {/* Navigation Buttons - Bottom of Hero Section */}
-        <div className="mt-20 flex justify-center gap-4">
+        <div className="mt-auto mb-4 flex justify-center gap-4">
           <Button
             type="button"
             title="Welcome"
