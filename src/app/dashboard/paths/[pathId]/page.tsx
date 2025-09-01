@@ -192,42 +192,55 @@ export default function SkillPathPage() {
   const progress = milestones.length > 0 ? (completedMilestones / milestones.length) * 100 : 0
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <div className="bg-white shadow">
+      <div className="bg-white shadow-sm border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <button
             onClick={() => router.push('/dashboard')}
-            className="text-indigo-600 hover:text-indigo-500 mb-4 flex items-center"
+            className="text-indigo-600 hover:text-indigo-500 mb-4 flex items-center font-medium"
           >
             ← Back to Dashboard
           </button>
           
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">{skillPath.title}</h1>
-              <p className="text-gray-600 mt-1">
+              <h1 className="text-3xl font-bold text-slate-900">{skillPath.title}</h1>
+              <p className="text-slate-600 mt-1 font-medium">
                 {skillPath.skill?.category} • {skillPath.target_duration_weeks} weeks • {skillPath.difficulty_level}
               </p>
               {skillPath.description && (
-                <p className="text-gray-700 mt-2">{skillPath.description}</p>
+                <p className="text-slate-700 mt-2 text-base leading-relaxed">{skillPath.description}</p>
               )}
             </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold text-indigo-600">{Math.round(progress)}%</div>
-              <div className="text-sm text-gray-500">Complete</div>
+            <div className="flex items-start space-x-4">
+              {/* Progress Display */}
+              <div className="text-right">
+                <div className="text-2xl font-bold text-indigo-600">{Math.round(progress)}%</div>
+                <div className="text-sm text-slate-600 font-medium">Complete</div>
+              </div>
+              {/* Delete Button */}
+              <button
+                onClick={() => setDeleteModal(true)}
+                className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                title="Delete learning path"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
             </div>
           </div>
 
           {/* Progress Bar */}
           <div className="mt-6">
-            <div className="bg-gray-200 rounded-full h-3">
+            <div className="bg-slate-200 rounded-full h-3">
               <div 
                 className="bg-indigo-600 h-3 rounded-full transition-all duration-300"
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="text-sm text-slate-600 mt-2 font-medium">
               {completedMilestones} of {milestones.length} milestones completed
             </p>
           </div>
@@ -236,14 +249,16 @@ export default function SkillPathPage() {
 
       {/* Milestones */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Learning Roadmap</h2>
+        <h2 className="text-2xl font-bold text-slate-900 mb-6">Learning Roadmap</h2>
         
         <div className="space-y-6">
           {milestones.map((milestone, index) => (
             <div 
               key={milestone.id}
-              className={`bg-white rounded-lg shadow-sm border p-6 ${
-                milestone.completed ? 'border-green-200 bg-green-50' : 'border-gray-200'
+              className={`rounded-lg shadow-lg border-2 p-6 transition-all duration-200 ${
+                milestone.completed 
+                  ? 'border-emerald-400 bg-emerald-50 shadow-emerald-100' 
+                  : 'border-slate-300 bg-white shadow-slate-200 hover:border-indigo-400 hover:shadow-indigo-100'
               }`}
             >
               <div className="flex items-start justify-between">
@@ -261,30 +276,30 @@ export default function SkillPathPage() {
                     </button>
                   </div>
                   <div className="flex-1">
-                    <h3 className={`text-lg font-semibold ${
-                      milestone.completed ? 'text-green-900' : 'text-gray-900'
+                    <h3 className={`text-xl font-bold mb-2 ${
+                      milestone.completed ? 'text-emerald-800' : 'text-slate-900'
                     }`}>
                       {milestone.title}
                     </h3>
-                    <p className={`mt-1 ${
-                      milestone.completed ? 'text-green-700' : 'text-gray-600'
+                    <p className={`mt-1 text-base leading-relaxed ${
+                      milestone.completed ? 'text-emerald-700' : 'text-slate-700'
                     }`}>
                       {milestone.description}
                     </p>
                     
                     {/* Enhanced Resources Section */}
                     {milestone.resources && milestone.resources.length > 0 && (
-                      <div className="mt-4">
-                        <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
+                      <div className="mt-6">
+                        <h4 className="text-lg font-semibold text-slate-800 mb-4 flex items-center">
                           📚 Learning Resources
                         </h4>
-                        <div className="grid gap-3">
+                        <div className="grid gap-4">
                           {milestone.resources.map((resource, resourceIndex) => (
-                            <div key={resourceIndex} className="bg-gray-50 rounded-lg p-3 border">
+                            <div key={resourceIndex} className="bg-slate-50 border-2 border-slate-200 rounded-xl p-4 hover:bg-slate-100 hover:border-indigo-300 transition-all duration-200">
                               <div className="flex items-start justify-between">
                                 <div className="flex-1">
-                                  <div className="flex items-center space-x-2 mb-1">
-                                    <span className="text-lg">
+                                  <div className="flex items-center space-x-3 mb-2">
+                                    <span className="text-xl">
                                       {resource.type === 'video' && '🎥'}
                                       {resource.type === 'article' && '📖'}
                                       {resource.type === 'book' && '📚'}
@@ -299,48 +314,48 @@ export default function SkillPathPage() {
                                         href={resource.url} 
                                         target="_blank" 
                                         rel="noopener noreferrer"
-                                        className="text-sm font-medium text-indigo-600 hover:text-indigo-500 hover:underline"
+                                        className="text-base font-semibold text-indigo-700 hover:text-indigo-800 hover:underline"
                                       >
                                         {resource.title}
                                       </a>
                                     ) : (
-                                      <span className="text-sm font-medium text-gray-900">
+                                      <span className="text-base font-semibold text-slate-800">
                                         {resource.title}
                                       </span>
                                     )}
                                     {resource.url && (
-                                      <span className="text-xs text-indigo-500">↗</span>
+                                      <span className="text-sm text-indigo-600 font-bold">↗</span>
                                     )}
                                   </div>
                                   
                                   {resource.description && (
-                                    <p className="text-xs text-gray-600 mb-2">{resource.description}</p>
+                                    <p className="text-sm text-slate-600 mb-3 leading-relaxed">{resource.description}</p>
                                   )}
                                   
-                                  <div className="flex flex-wrap gap-2 text-xs">
+                                  <div className="flex flex-wrap gap-2 text-sm">
                                     {resource.platform && (
-                                      <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                                      <span className="bg-blue-200 text-blue-800 px-3 py-1 rounded-full font-medium">
                                         {resource.platform}
                                       </span>
                                     )}
                                     {resource.duration && (
-                                      <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                                      <span className="bg-slate-200 text-slate-700 px-3 py-1 rounded-full font-medium">
                                         ⏱️ {resource.duration}
                                       </span>
                                     )}
                                     {resource.difficulty && (
-                                      <span className={`px-2 py-1 rounded-full ${
+                                      <span className={`px-3 py-1 rounded-full font-medium ${
                                         resource.difficulty === 'beginner' 
-                                          ? 'bg-green-100 text-green-700'
+                                          ? 'bg-green-200 text-green-800'
                                           : resource.difficulty === 'intermediate'
-                                          ? 'bg-yellow-100 text-yellow-700'
-                                          : 'bg-red-100 text-red-700'
+                                          ? 'bg-amber-200 text-amber-800'
+                                          : 'bg-red-200 text-red-800'
                                       }`}>
                                         {resource.difficulty}
                                       </span>
                                     )}
                                     {resource.section && (
-                                      <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                                      <span className="bg-purple-200 text-purple-800 px-3 py-1 rounded-full font-medium">
                                         📖 {resource.section}
                                       </span>
                                     )}

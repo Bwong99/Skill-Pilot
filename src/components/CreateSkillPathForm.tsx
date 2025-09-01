@@ -359,17 +359,18 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
         </div>
 
         {/* AI Feature Highlight */}
-        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg p-4 mb-6">
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4 mb-6">
           <div className="flex items-center mb-2">
-            <span className="text-2xl mr-2">🤖</span>
-            <h3 className="text-lg font-semibold text-indigo-900">AI-Powered Learning Path</h3>
+            <span className="text-2xl mr-2">�</span>
+            <h3 className="text-lg font-semibold text-blue-900">Gemini AI-Powered Learning Path</h3>
           </div>
-          <p className="text-sm text-indigo-700">
-            Our AI will analyze your goals and create a personalized roadmap with:
+          <p className="text-sm text-blue-700">
+            Powered by Google Gemini AI to create personalized roadmaps with:
           </p>
-          <ul className="text-sm text-indigo-600 mt-2 space-y-1">
+          <ul className="text-sm text-blue-600 mt-2 space-y-1">
             <li>• Week-by-week learning milestones</li>
-            <li>• Curated resources and practice projects</li>
+            <li>• Real links to documentation, courses, and tutorials</li>
+            <li>• Hands-on exercises and project ideas</li>
             <li>• Realistic time estimates and difficulty progression</li>
           </ul>
         </div>
@@ -387,17 +388,17 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6 rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center"
+          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center"
         >
           {loading ? (
             <>
               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-              Generating AI-Powered Roadmap...
+              Generating Gemini AI Roadmap...
             </>
           ) : (
             <>
-              <span className="mr-2">🚀</span>
-              Generate AI Learning Roadmap
+              <span className="mr-2">🧠</span>
+              Generate Gemini AI Learning Roadmap
             </>
           )}
         </button>

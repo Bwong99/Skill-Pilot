@@ -1,9 +1,7 @@
-import OpenAI from 'openai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Initialize Google AI client
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!)
 
 export interface LearningMilestone {
   title: string
@@ -134,44 +132,38 @@ Format as JSON with this enhanced structure:
   ]
 }`
 
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: 'You are an expert learning designer who creates personalized, practical learning roadmaps. Generate detailed, actionable content that helps people learn effectively.'
-        },
-        {
-          role: 'user',
-          content: prompt
-        }
-      ],
-      temperature: 0.7,
-      max_tokens: 3000,
-    })
+    // Use Gemini 2.5 Flash-Lite (free model)
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' })
+    
+    const result = await model.generateContent(prompt)
 
-    const content = response.choices[0]?.message?.content
+    const response = result.response
+    const content = response.text()
+    
     if (!content) {
-      throw new Error('No content generated from OpenAI')
+      throw new Error('No content generated from Gemini AI')
     }
+
+    console.log('Gemini AI Response:', content)
 
     // Parse the JSON response
     const jsonMatch = content.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
-      throw new Error('No valid JSON found in OpenAI response')
+      throw new Error('No valid JSON found in Gemini AI response')
     }
 
     const parsed = JSON.parse(jsonMatch[0])
     
     // Validate the structure
     if (!parsed.title || !parsed.description || !Array.isArray(parsed.milestones)) {
-      throw new Error('Invalid response structure from OpenAI')
+      throw new Error('Invalid response structure from Gemini AI')
     }
 
+    console.log(`Successfully generated AI roadmap: ${parsed.title}`)
     return parsed as SkillPathGeneration
 
   } catch (error) {
-    console.error('Error generating learning path:', error)
+    console.error('Error generating learning path with Gemini:', error)
     
     // Fallback to a basic structure if AI fails
     return generateFallbackPath(skillName, duration, difficulty)
@@ -227,28 +219,18 @@ function generateFallbackPath(skillName: string, duration: number, difficulty: s
 
 export async function generatePersonalizedSuggestions(skillName: string): Promise<string[]> {
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: 'Generate 5 brief, compelling reasons why learning this skill is valuable in 2025.'
-        },
-        {
-          role: 'user',
-          content: `Why should someone learn ${skillName}?`
-        }
-      ],
-      temperature: 0.8,
-      max_tokens: 300,
-    })
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' })
+    
+    const result = await model.generateContent(
+      `Generate 5 brief, compelling reasons why learning ${skillName} is valuable in 2025. Each reason should be one sentence.`
+    )
 
-    const content = response.choices[0]?.message?.content
+    const content = result.response.text()
     if (!content) return []
 
     return content.split('\n').filter(line => line.trim().length > 0).slice(0, 5)
   } catch (error) {
-    console.error('Error generating suggestions:', error)
+    console.error('Error generating suggestions with Gemini:', error)
     return [
       `${skillName} is in high demand across industries`,
       `Build valuable technical skills for career growth`,
