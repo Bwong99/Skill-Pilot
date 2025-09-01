@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useUser } from '@clerk/nextjs'
-import { supabase } from '@/lib/supabase-client'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 type CreateSkillPathFormProps = {
   onSuccess?: (skillPathId: string) => void
@@ -30,6 +30,9 @@ const DIFFICULTY_LEVELS = [
 export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormProps) {
   const { user } = useUser()
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const supabase = createClientComponentClient()
+  
   const [formData, setFormData] = useState({
     skillName: '',
     category: '',
@@ -44,19 +47,30 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
     if (!user) return
 
     setLoading(true)
+    setError('')
+    
     try {
+      console.log('Starting skill path creation...')
+      
       // First, create or find the skill
       const skillCategory = formData.category === 'Other' ? formData.customCategory : formData.category
       
-      let { data: existingSkill } = await supabase
+      console.log('Looking for existing skill:', formData.skillName)
+      let { data: existingSkill, error: skillCheckError } = await supabase
         .from('skills')
         .select('id')
         .eq('name', formData.skillName)
-        .single()
+        .maybeSingle()
+
+      if (skillCheckError) {
+        console.error('Error checking for existing skill:', skillCheckError)
+        throw new Error(`Failed to check existing skills: ${skillCheckError.message}`)
+      }
 
       let skillId = existingSkill?.id
 
       if (!skillId) {
+        console.log('Creating new skill...')
         // Create new skill
         const { data: newSkill, error: skillError } = await supabase
           .from('skills')
@@ -70,11 +84,19 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
           .select('id')
           .single()
 
-        if (skillError) throw skillError
+        if (skillError) {
+          console.error('Error creating skill:', skillError)
+          throw new Error(`Failed to create skill: ${skillError.message}`)
+        }
+        
         skillId = newSkill.id
+        console.log('Created new skill with ID:', skillId)
+      } else {
+        console.log('Using existing skill with ID:', skillId)
       }
 
       // Create the skill path
+      console.log('Creating skill path...')
       const { data: skillPath, error: pathError } = await supabase
         .from('skill_paths')
         .insert({
@@ -89,41 +111,57 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
         .select('id')
         .single()
 
-      if (pathError) throw pathError
+      if (pathError) {
+        console.error('Error creating skill path:', pathError)
+        throw new Error(`Failed to create skill path: ${pathError.message}`)
+      }
+
+      console.log('Created skill path with ID:', skillPath.id)
 
       // Generate AI roadmap (we'll implement this next)
-      await generateAIRoadmap(skillPath.id, formData)
+      await generateBasicRoadmap(skillPath.id, formData)
 
+      console.log('Successfully created skill path!')
       onSuccess?.(skillPath.id)
-    } catch (error) {
+      
+    } catch (error: any) {
       console.error('Error creating skill path:', error)
+      setError(error.message || 'Failed to create skill path. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
-  const generateAIRoadmap = async (skillPathId: string, formData: any) => {
-    // For now, create a basic roadmap structure
-    // We'll replace this with real AI generation next
+  const generateBasicRoadmap = async (skillPathId: string, formData: any) => {
+    console.log('Generating basic roadmap for skill path:', skillPathId)
+    
+    // Create basic milestone structure
     const milestones = Array.from({ length: formData.targetWeeks }, (_, index) => ({
       skill_path_id: skillPathId,
-      title: `Week ${index + 1}: ${formData.skillName} Fundamentals ${index + 1}`,
-      description: `Learn essential concepts for week ${index + 1}`,
+      title: `Week ${index + 1}: ${formData.skillName} - Module ${index + 1}`,
+      description: `Learn fundamental concepts and practice exercises for week ${index + 1}`,
       order_index: index,
       week_number: index + 1,
       estimated_hours: 10,
       resources: [
         {
           type: 'article',
-          title: `${formData.skillName} Tutorial`,
-          description: 'Comprehensive tutorial for this week'
+          title: `${formData.skillName} - Week ${index + 1} Resources`,
+          description: `Curated learning materials for week ${index + 1}`
         }
       ]
     }))
 
-    await supabase
+    const { error: milestonesError } = await supabase
       .from('roadmap_milestones')
       .insert(milestones)
+
+    if (milestonesError) {
+      console.error('Error creating milestones:', milestonesError)
+      throw new Error(`Failed to create roadmap milestones: ${milestonesError.message}`)
+    }
+    
+    console.log('Successfully created', milestones.length, 'milestones')
   }
 
   return (
@@ -237,6 +275,15 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           />
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="p-4 rounded-lg bg-red-50 border border-red-200">
+            <p className="text-sm text-red-700">
+              <strong>Error:</strong> {error}
+            </p>
+          </div>
+        )}
 
         {/* Submit Button */}
         <button
