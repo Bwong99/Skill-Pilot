@@ -423,6 +423,15 @@ export default function SkillPathPage() {
           </div>
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmModal
+        isOpen={deleteModal}
+        onClose={() => setDeleteModal(false)}
+        onConfirm={handleDeletePath}
+        pathTitle={skillPath?.title || ''}
+        isDeleting={deleting}
+      />
     </div>
   )
 }
