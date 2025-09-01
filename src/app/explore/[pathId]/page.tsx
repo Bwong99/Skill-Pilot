@@ -63,6 +63,24 @@ export default function ExploreRoadmapDetailPage() {
     }
   }, [params.pathId])
 
+  // Add keyboard navigation
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        prevWeek()
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        nextWeek()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress)
+    }
+  }, [currentWeek, isAnimating, milestones.length])
+
   const loadRoadmapDetails = async () => {
     try {
       console.log('Loading public roadmap:', params.pathId)
@@ -219,8 +237,13 @@ export default function ExploreRoadmapDetailPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-slate-900">Learning Roadmap Preview</h2>
-          <div className="text-sm text-slate-600">
-            Week {currentWeek + 1} of {milestones.length}
+          <div className="text-right">
+            <div className="text-sm text-slate-600">
+              Week {currentWeek + 1} of {milestones.length}
+            </div>
+            <div className="text-xs text-slate-500 mt-1">
+              Use ← → arrow keys to navigate
+            </div>
           </div>
         </div>
         
@@ -269,8 +292,8 @@ export default function ExploreRoadmapDetailPage() {
 
             {/* Current Milestone Display */}
             <div className="relative overflow-hidden">
-              <div className={`transition-all duration-300 ease-in-out ${
-                isAnimating ? 'transform translate-x-2 opacity-50' : 'transform translate-x-0 opacity-100'
+              <div className={`transition-all duration-300 ease-in-out transform ${
+                isAnimating ? 'translate-x-4 opacity-30 scale-98' : 'translate-x-0 opacity-100 scale-100'
               }`}>
                 {milestones[currentWeek] && (
                   <div className="rounded-lg shadow-xl border-2 p-8 border-indigo-200 bg-white">
