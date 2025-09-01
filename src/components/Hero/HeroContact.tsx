@@ -19,10 +19,10 @@ const HeroContact = () => {
             Email
           </h3>
           <Link 
-            href="mailto:your.email@example.com" 
+            href="mailto:bwong999@student.ubc.ca" 
             className="text-indigo-600 hover:text-indigo-500 transition-colors"
           >
-            your.email@example.com
+            bwong999@student.ubc.ca
           </Link>
         </div>
         
@@ -32,12 +32,12 @@ const HeroContact = () => {
             GitHub
           </h3>
           <Link 
-            href="https://github.com/yourusername" 
+            href="https://github.com/Bwong99" 
             target="_blank"
             rel="noopener noreferrer"
             className="text-indigo-600 hover:text-indigo-500 transition-colors"
           >
-            @yourusername
+            @Bwong99
           </Link>
         </div>
       </div>
