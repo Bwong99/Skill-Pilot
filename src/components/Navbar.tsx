@@ -27,7 +27,7 @@ const Navbar = () => {
           type="button"
           title="Login"
           icon="/assets/icons/menu.svg"
-          variant="bg-blue-600 text-white px-4 py-2 hover:bg-blue-500"
+          variant="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 hover:from-blue-700 hover:to-indigo-700 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold"
         />
       </div>
 
