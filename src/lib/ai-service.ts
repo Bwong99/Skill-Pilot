@@ -46,6 +46,14 @@ export async function generateLearningPath({
   userContext?: string
 }): Promise<SkillPathGeneration> {
   try {
+    console.log('🤖 Starting AI generation with Gemini 2.5 Flash-Lite...')
+    console.log(`Parameters: ${skillName}, ${duration} weeks, ${difficulty}`)
+    
+    // Check if API key is configured
+    if (!process.env.GOOGLE_AI_API_KEY) {
+      throw new Error('GOOGLE_AI_API_KEY environment variable is not configured')
+    }
+    
     const prompt = `Create a comprehensive ${duration}-week learning roadmap for mastering ${skillName} at ${difficulty} level.
 
 ${userContext ? `Additional context: ${userContext}` : ''}
@@ -132,13 +140,17 @@ Format as JSON with this enhanced structure:
   ]
 }`
 
-    // Use Gemini 2.5 Flash-Lite (free model)
+    // Use Gemini 2.5 Flash-Lite (most cost-efficient free model)
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' })
     
+    console.log('📡 Making API call to Gemini...')
     const result = await model.generateContent(prompt)
 
     const response = result.response
     const content = response.text()
+    
+    console.log('✅ Received response from Gemini')
+    console.log('Response length:', content?.length || 0)
     
     if (!content) {
       throw new Error('No content generated from Gemini AI')
@@ -163,9 +175,17 @@ Format as JSON with this enhanced structure:
     return parsed as SkillPathGeneration
 
   } catch (error) {
-    console.error('Error generating learning path with Gemini:', error)
+    console.error('❌ Error generating learning path with Gemini:', error)
+    
+    // Log more details about the error
+    if (error instanceof Error) {
+      console.error('Error name:', error.name)
+      console.error('Error message:', error.message)
+      console.error('Error stack:', error.stack)
+    }
     
     // Fallback to a basic structure if AI fails
+    console.log('🔄 Falling back to manual roadmap generation...')
     return generateFallbackPath(skillName, duration, difficulty)
   }
 }
