@@ -73,10 +73,11 @@ export default function ExplorePage() {
       }
 
       // Add mock user names (in a real app, you'd join with a users table or store display names)
-      const pathsWithUserNames = (pathsData || []).map((path, index) => ({
+      const pathsWithUserNames = (pathsData || []).map((path: any, index) => ({
         ...path,
         user_name: `SkillPilot User ${Math.floor(Math.random() * 1000) + 1}`, // Mock user names
-        milestones: path.milestones || []
+        milestones: path.milestones || [],
+        skill: path.skill && path.skill.length > 0 ? path.skill[0] : { name: 'Unknown', category: 'Other' }
       }))
 
       setPublicPaths(pathsWithUserNames)
