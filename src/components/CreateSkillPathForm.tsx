@@ -118,8 +118,9 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
 
       console.log('Created skill path with ID:', skillPath.id)
 
-      // Generate AI roadmap (we'll implement this next)
-      await generateBasicRoadmap(skillPath.id, formData)
+      // Generate AI-powered roadmap
+      console.log('Generating AI-powered roadmap...')
+      await generateAIRoadmap(skillPath.id, formData)
 
       console.log('Successfully created skill path!')
       onSuccess?.(skillPath.id)
@@ -132,22 +133,103 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
     }
   }
 
-  const generateBasicRoadmap = async (skillPathId: string, formData: any) => {
-    console.log('Generating basic roadmap for skill path:', skillPathId)
+  const generateAIRoadmap = async (skillPathId: string, formData: any) => {
+    console.log('Generating AI-powered roadmap for skill path:', skillPathId)
     
-    // Create basic milestone structure
+    try {
+      // Call the AI generation API
+      const response = await fetch('/api/generate-path', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          skillName: formData.skillName,
+          duration: formData.targetWeeks,
+          difficulty: formData.difficultyLevel.charAt(0).toUpperCase() + formData.difficultyLevel.slice(1),
+          userContext: formData.description
+        })
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to generate AI roadmap')
+      }
+
+      const aiPath = await response.json()
+      console.log('Generated AI path:', aiPath.title)
+
+      // Update the skill path with AI-generated title and description
+      const { error: updateError } = await supabase
+        .from('skill_paths')
+        .update({
+          title: aiPath.title,
+          description: aiPath.description
+        })
+        .eq('id', skillPathId)
+
+      if (updateError) {
+        console.error('Error updating skill path:', updateError)
+        // Don't throw here - we can still create milestones with original title
+      }
+
+      // Create AI-generated milestones
+      const milestones = aiPath.milestones.map((milestone: any, index: number) => ({
+        skill_path_id: skillPathId,
+        title: milestone.title,
+        description: milestone.description,
+        order_index: index,
+        week_number: milestone.week_number,
+        estimated_hours: milestone.estimated_hours,
+        resources: milestone.resources || []
+      }))
+
+      const { error: milestonesError } = await supabase
+        .from('roadmap_milestones')
+        .insert(milestones)
+
+      if (milestonesError) {
+        console.error('Error creating AI milestones:', milestonesError)
+        throw new Error(`Failed to create AI roadmap milestones: ${milestonesError.message}`)
+      }
+      
+      console.log('Successfully created', milestones.length, 'AI-generated milestones')
+      
+    } catch (error: any) {
+      console.error('Error generating AI roadmap:', error)
+      
+      // Fallback to basic roadmap if AI fails
+      console.log('Falling back to basic roadmap generation...')
+      await generateFallbackRoadmap(skillPathId, formData)
+    }
+  }
+
+  const generateFallbackRoadmap = async (skillPathId: string, formData: any) => {
+    console.log('Generating fallback roadmap for skill path:', skillPathId)
+    
+    // Create basic milestone structure as fallback
     const milestones = Array.from({ length: formData.targetWeeks }, (_, index) => ({
       skill_path_id: skillPathId,
       title: `Week ${index + 1}: ${formData.skillName} - Module ${index + 1}`,
-      description: `Learn fundamental concepts and practice exercises for week ${index + 1}`,
+      description: `Learn fundamental concepts and practice exercises for week ${index + 1}. Build a solid foundation in ${formData.skillName}.`,
       order_index: index,
       week_number: index + 1,
-      estimated_hours: 10,
+      estimated_hours: Math.ceil(40 / formData.targetWeeks), // Distribute 40 hours across weeks
       resources: [
         {
           type: 'article',
-          title: `${formData.skillName} - Week ${index + 1} Resources`,
-          description: `Curated learning materials for week ${index + 1}`
+          title: `${formData.skillName} Fundamentals - Week ${index + 1}`,
+          description: `Essential reading material and tutorials for week ${index + 1}`
+        },
+        {
+          type: 'practice',
+          title: `Hands-on Practice`,
+          description: `Coding exercises and practical tasks to reinforce learning`
+        },
+        {
+          type: 'project',
+          title: `Week ${index + 1} Project`,
+          description: `Apply your learning with a practical project`
         }
       ]
     }))
@@ -157,11 +239,11 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
       .insert(milestones)
 
     if (milestonesError) {
-      console.error('Error creating milestones:', milestonesError)
+      console.error('Error creating fallback milestones:', milestonesError)
       throw new Error(`Failed to create roadmap milestones: ${milestonesError.message}`)
     }
     
-    console.log('Successfully created', milestones.length, 'milestones')
+    console.log('Successfully created', milestones.length, 'fallback milestones')
   }
 
   return (
@@ -276,6 +358,22 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
           />
         </div>
 
+        {/* AI Feature Highlight */}
+        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg p-4 mb-6">
+          <div className="flex items-center mb-2">
+            <span className="text-2xl mr-2">🤖</span>
+            <h3 className="text-lg font-semibold text-indigo-900">AI-Powered Learning Path</h3>
+          </div>
+          <p className="text-sm text-indigo-700">
+            Our AI will analyze your goals and create a personalized roadmap with:
+          </p>
+          <ul className="text-sm text-indigo-600 mt-2 space-y-1">
+            <li>• Week-by-week learning milestones</li>
+            <li>• Curated resources and practice projects</li>
+            <li>• Realistic time estimates and difficulty progression</li>
+          </ul>
+        </div>
+
         {/* Error Message */}
         {error && (
           <div className="p-4 rounded-lg bg-red-50 border border-red-200">
@@ -289,9 +387,19 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6 rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center"
         >
-          {loading ? 'Creating Your Learning Path...' : 'Generate AI Roadmap'}
+          {loading ? (
+            <>
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+              Generating AI-Powered Roadmap...
+            </>
+          ) : (
+            <>
+              <span className="mr-2">🚀</span>
+              Generate AI Learning Roadmap
+            </>
+          )}
         </button>
       </form>
     </div>
