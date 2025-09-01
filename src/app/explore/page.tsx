@@ -135,9 +135,6 @@ export default function ExplorePage() {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
               Explore Learning Roadmaps
             </h1>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Discover AI-generated learning paths created by the community. Find inspiration for your next skill or clone existing roadmaps to start your journey.
-            </p>
           </div>
         </div>
       </header>

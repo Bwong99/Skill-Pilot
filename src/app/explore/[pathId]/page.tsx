@@ -52,6 +52,8 @@ export default function ExploreRoadmapDetailPage() {
   const [milestones, setMilestones] = useState<Milestone[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [currentWeek, setCurrentWeek] = useState(0)
+  const [isAnimating, setIsAnimating] = useState(false)
 
   const supabase = createClientComponentClient()
 
@@ -114,6 +116,30 @@ export default function ExploreRoadmapDetailPage() {
       router.push('/dashboard/create-path')
     } catch (error) {
       console.error('Error cloning roadmap:', error)
+    }
+  }
+
+  const nextWeek = () => {
+    if (currentWeek < milestones.length - 1 && !isAnimating) {
+      setIsAnimating(true)
+      setCurrentWeek(prev => prev + 1)
+      setTimeout(() => setIsAnimating(false), 300)
+    }
+  }
+
+  const prevWeek = () => {
+    if (currentWeek > 0 && !isAnimating) {
+      setIsAnimating(true)
+      setCurrentWeek(prev => prev - 1)
+      setTimeout(() => setIsAnimating(false), 300)
+    }
+  }
+
+  const goToWeek = (weekIndex: number) => {
+    if (weekIndex !== currentWeek && !isAnimating) {
+      setIsAnimating(true)
+      setCurrentWeek(weekIndex)
+      setTimeout(() => setIsAnimating(false), 300)
     }
   }
 
@@ -189,80 +215,131 @@ export default function ExploreRoadmapDetailPage() {
         </div>
       </div>
 
-      {/* Milestones */}
+      {/* Milestones Flip-Through Interface */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6">Learning Roadmap Preview</h2>
-        <p className="text-slate-600 mb-8">
-          This is a preview of the learning roadmap. Clone it to add it to your dashboard and track your progress!
-        </p>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-slate-900">Learning Roadmap Preview</h2>
+          <div className="text-sm text-slate-600">
+            Week {currentWeek + 1} of {milestones.length}
+          </div>
+        </div>
         
-        <div className="space-y-6">
-          {milestones.map((milestone, index) => (
-            <div 
-              key={milestone.id}
-              className="rounded-lg shadow-lg border-2 p-6 border-slate-200 bg-white hover:border-indigo-300 transition-all duration-200"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-6 h-6 rounded-full border-2 border-slate-300 bg-slate-100">
+        {milestones.length > 0 && (
+          <>
+            {/* Week Navigation */}
+            <div className="flex items-center justify-between mb-8">
+              <button
+                onClick={prevWeek}
+                disabled={currentWeek === 0 || isAnimating}
+                className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-indigo-100 text-indigo-700 hover:bg-indigo-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition-all duration-200"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                <span>Previous Week</span>
+              </button>
+
+              {/* Week Indicator Dots */}
+              <div className="flex items-center space-x-2">
+                {milestones.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToWeek(index)}
+                    disabled={isAnimating}
+                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                      index === currentWeek
+                        ? 'bg-indigo-600 scale-125'
+                        : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={nextWeek}
+                disabled={currentWeek === milestones.length - 1 || isAnimating}
+                className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-indigo-100 text-indigo-700 hover:bg-indigo-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition-all duration-200"
+              >
+                <span>Next Week</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Current Milestone Display */}
+            <div className="relative overflow-hidden">
+              <div className={`transition-all duration-300 ease-in-out ${
+                isAnimating ? 'transform translate-x-2 opacity-50' : 'transform translate-x-0 opacity-100'
+              }`}>
+                {milestones[currentWeek] && (
+                  <div className="rounded-lg shadow-xl border-2 p-8 border-indigo-200 bg-white">
+                    <div className="flex items-start justify-between mb-6">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-3 mb-3">
+                          <div className="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center text-lg font-bold">
+                            {currentWeek + 1}
+                          </div>
+                          <div>
+                            <h3 className="text-2xl font-bold text-slate-900">
+                              {milestones[currentWeek].title}
+                            </h3>
+                            <p className="text-slate-600 font-medium">
+                              Week {milestones[currentWeek].week_number} • {milestones[currentWeek].estimated_hours}h estimated
+                            </p>
+                          </div>
+                        </div>
+                        <p className="text-base leading-relaxed text-slate-700 mb-6">
+                          {milestones[currentWeek].description}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold mb-2 text-slate-900">
-                      {milestone.title}
-                    </h3>
-                    <p className="mt-1 text-base leading-relaxed text-slate-700">
-                      {milestone.description}
-                    </p>
                     
                     {/* Resources Section */}
-                    {milestone.resources && milestone.resources.length > 0 && (
-                      <div className="mt-6">
-                        <h4 className="text-lg font-semibold text-slate-800 mb-4 flex items-center">
-                          📚 Learning Resources
+                    {milestones[currentWeek].resources && milestones[currentWeek].resources.length > 0 && (
+                      <div className="mb-8">
+                        <h4 className="text-xl font-semibold text-slate-800 mb-4 flex items-center">
+                          📚 Learning Resources ({milestones[currentWeek].resources.length})
                         </h4>
-                        <div className="grid gap-4">
-                          {milestone.resources.map((resource, resourceIndex) => (
-                            <div key={resourceIndex} className="bg-slate-50 border-2 border-slate-200 rounded-xl p-4">
-                              <div className="flex items-start justify-between">
+                        <div className="grid gap-4 md:grid-cols-2">
+                          {milestones[currentWeek].resources.map((resource, resourceIndex) => (
+                            <div key={resourceIndex} className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                              <div className="flex items-start space-x-3">
+                                <span className="text-2xl flex-shrink-0">
+                                  {resource.type === 'video' && '🎥'}
+                                  {resource.type === 'article' && '📖'}
+                                  {resource.type === 'book' && '📚'}
+                                  {resource.type === 'practice' && '💻'}
+                                  {resource.type === 'project' && '🚀'}
+                                  {resource.type === 'documentation' && '📋'}
+                                  {resource.type === 'course' && '🎓'}
+                                  {resource.type === 'tutorial' && '👨‍💻'}
+                                </span>
                                 <div className="flex-1">
-                                  <div className="flex items-center space-x-3 mb-2">
-                                    <span className="text-xl">
-                                      {resource.type === 'video' && '🎥'}
-                                      {resource.type === 'article' && '📖'}
-                                      {resource.type === 'book' && '📚'}
-                                      {resource.type === 'practice' && '💻'}
-                                      {resource.type === 'project' && '🚀'}
-                                      {resource.type === 'documentation' && '📋'}
-                                      {resource.type === 'course' && '🎓'}
-                                      {resource.type === 'tutorial' && '👨‍💻'}
-                                    </span>
-                                    <span className="text-base font-semibold text-slate-800">
-                                      {resource.title}
-                                    </span>
-                                  </div>
+                                  <h5 className="font-semibold text-slate-800 mb-1">
+                                    {resource.title}
+                                  </h5>
                                   {resource.description && (
                                     <p className="text-sm text-slate-600 mb-2">{resource.description}</p>
                                   )}
-                                  <div className="flex items-center space-x-2 text-xs">
+                                  <div className="flex flex-wrap gap-2">
                                     {resource.duration && (
-                                      <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-medium">
+                                      <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
                                         ⏱️ {resource.duration}
                                       </span>
                                     )}
                                     {resource.platform && (
-                                      <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full font-medium">
+                                      <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs font-medium">
                                         📍 {resource.platform}
                                       </span>
                                     )}
                                     {resource.difficulty && (
-                                      <span className={`px-2 py-1 rounded-full font-medium ${
+                                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                         resource.difficulty === 'beginner'
-                                          ? 'bg-green-200 text-green-800'
+                                          ? 'bg-green-100 text-green-700'
                                           : resource.difficulty === 'intermediate'
-                                          ? 'bg-amber-200 text-amber-800'
-                                          : 'bg-red-200 text-red-800'
+                                          ? 'bg-amber-100 text-amber-700'
+                                          : 'bg-red-100 text-red-700'
                                       }`}>
                                         {resource.difficulty}
                                       </span>
@@ -277,24 +354,26 @@ export default function ExploreRoadmapDetailPage() {
                     )}
 
                     {/* Exercises Section */}
-                    {milestone.exercises && milestone.exercises.length > 0 && (
-                      <div className="mt-4">
-                        <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
-                          💪 Practice Exercises
+                    {milestones[currentWeek].exercises && milestones[currentWeek].exercises.length > 0 && (
+                      <div>
+                        <h4 className="text-xl font-semibold text-slate-800 mb-4 flex items-center">
+                          💪 Practice Exercises ({milestones[currentWeek].exercises.length})
                         </h4>
-                        <div className="grid gap-2">
-                          {milestone.exercises.map((exercise, exerciseIndex) => (
-                            <div key={exerciseIndex} className="bg-indigo-50 rounded-lg p-3 border border-indigo-200">
-                              <div className="flex items-center justify-between mb-1">
-                                <span className="text-sm font-medium text-indigo-900">
-                                  {exercise.type === 'coding' && '💻'} 
-                                  {exercise.type === 'practice' && '🔄'} 
-                                  {exercise.type === 'project' && '🚀'} 
-                                  {exercise.type === 'reading' && '📖'} 
-                                  {exercise.title}
+                        <div className="grid gap-3">
+                          {milestones[currentWeek].exercises.map((exercise, exerciseIndex) => (
+                            <div key={exerciseIndex} className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg p-4 border border-purple-200">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="font-medium text-indigo-900 flex items-center space-x-2">
+                                  <span>
+                                    {exercise.type === 'coding' && '💻'} 
+                                    {exercise.type === 'practice' && '🔄'} 
+                                    {exercise.type === 'project' && '🚀'} 
+                                    {exercise.type === 'reading' && '📖'}
+                                  </span>
+                                  <span>{exercise.title}</span>
                                 </span>
-                                <div className="flex gap-1">
-                                  <span className={`text-xs px-2 py-1 rounded-full ${
+                                <div className="flex gap-2">
+                                  <span className={`text-xs px-2 py-1 rounded-full font-medium ${
                                     exercise.difficulty === 'easy' 
                                       ? 'bg-green-100 text-green-700'
                                       : exercise.difficulty === 'medium'
@@ -303,27 +382,44 @@ export default function ExploreRoadmapDetailPage() {
                                   }`}>
                                     {exercise.difficulty}
                                   </span>
-                                  <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                                  <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-medium">
                                     ⏱️ {exercise.estimated_time}
                                   </span>
                                 </div>
                               </div>
-                              <p className="text-xs text-indigo-700">{exercise.description}</p>
+                              <p className="text-sm text-indigo-700 leading-relaxed">{exercise.description}</p>
                             </div>
                           ))}
                         </div>
                       </div>
                     )}
                   </div>
-                </div>
-                <div className="text-right text-sm text-gray-500">
-                  <div>Week {milestone.week_number}</div>
-                  <div>{milestone.estimated_hours}h estimated</div>
-                </div>
+                )}
               </div>
             </div>
-          ))}
-        </div>
+
+            {/* Week Overview at Bottom */}
+            <div className="mt-8 bg-slate-50 rounded-lg p-4">
+              <h4 className="font-semibold text-slate-800 mb-3">Roadmap Overview</h4>
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2">
+                {milestones.map((milestone, index) => (
+                  <button
+                    key={milestone.id}
+                    onClick={() => goToWeek(index)}
+                    disabled={isAnimating}
+                    className={`p-2 rounded-lg text-xs font-medium transition-all duration-200 ${
+                      index === currentWeek
+                        ? 'bg-indigo-600 text-white shadow-md'
+                        : 'bg-white text-slate-700 hover:bg-indigo-50 hover:text-indigo-600'
+                    }`}
+                  >
+                    Week {index + 1}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
 
         {milestones.length === 0 && (
           <div className="text-center py-12">
