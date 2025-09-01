@@ -159,10 +159,10 @@ export default function DashboardPage() {
 
   if (!isLoaded || loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-blue-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading your dashboard...</p>
+          <p className="mt-4 text-blue-600">Loading your dashboard...</p>
         </div>
       </div>
     )
@@ -173,23 +173,15 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-blue-50">
       {/* Header */}
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-              <p className="text-gray-600">Welcome back, {user.firstName || user.emailAddresses[0].emailAddress}</p>
+              <h1 className="text-3xl font-bold text-slate-800">Dashboard</h1>
+              <p className="text-blue-600">Welcome back, {user.firstName || user.emailAddresses[0].emailAddress}</p>
             </div>
-            <UserButton 
-              appearance={{
-                elements: {
-                  avatarBox: "h-10 w-10"
-                }
-              }}
-              afterSignOutUrl="/welcome"
-            />
           </div>
         </div>
       </header>
@@ -208,10 +200,10 @@ export default function DashboardPage() {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">
+                    <dt className="text-sm font-medium text-blue-500 truncate">
                       Learning Paths
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900">
+                    <dd className="text-lg font-medium text-slate-800">
                       {stats.totalPaths}
                     </dd>
                   </dl>
@@ -231,10 +223,10 @@ export default function DashboardPage() {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">
+                    <dt className="text-sm font-medium text-blue-500 truncate">
                       Overall Progress
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900">
+                    <dd className="text-lg font-medium text-slate-800">
                       {stats.avgProgress}%
                     </dd>
                   </dl>
@@ -254,10 +246,10 @@ export default function DashboardPage() {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">
+                    <dt className="text-sm font-medium text-blue-500 truncate">
                       Milestones
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900">
+                    <dd className="text-lg font-medium text-slate-800">
                       {stats.completedMilestones}/{stats.totalMilestones}
                     </dd>
                   </dl>
@@ -277,10 +269,10 @@ export default function DashboardPage() {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">
+                    <dt className="text-sm font-medium text-blue-500 truncate">
                       Learning Streak
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900">
+                    <dd className="text-lg font-medium text-slate-800">
                       {stats.totalPaths > 0 ? '1 day' : '0 days'}
                     </dd>
                   </dl>
@@ -292,13 +284,13 @@ export default function DashboardPage() {
 
         {/* Learning Paths Section */}
         <div className="mt-8 bg-white shadow rounded-lg">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-blue-200">
             <div className="flex justify-between items-center">
               <div>
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                <h3 className="text-lg leading-6 font-medium text-slate-800">
                   Your Learning Paths
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-blue-600">
                   {skillPaths.length > 0 
                     ? `${skillPaths.length} active learning ${skillPaths.length === 1 ? 'path' : 'paths'}`
                     : 'Start your learning journey'
@@ -325,15 +317,15 @@ export default function DashboardPage() {
                   return (
                     <div
                       key={path.id}
-                      className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors cursor-pointer border"
+                      className="bg-blue-50 rounded-lg p-6 hover:bg-blue-100 transition-colors cursor-pointer border border-blue-200 hover:border-indigo-300"
                       onClick={() => router.push(`/dashboard/paths/${path.id}`)}
                     >
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
-                          <h4 className="text-lg font-semibold text-gray-900 mb-1">
+                          <h4 className="text-lg font-semibold text-slate-800 mb-1">
                             {path.title}
                           </h4>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-blue-600">
                             {path.skill?.category} • {path.target_duration_weeks} weeks • {path.difficulty_level}
                           </p>
                         </div>
@@ -343,14 +335,28 @@ export default function DashboardPage() {
                             <div className="text-2xl font-bold text-indigo-600">
                               {Math.round(progress)}%
                             </div>
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-blue-500">
                               complete
                             </div>
                           </div>
+                          {/* Edit Button */}
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              router.push(`/dashboard/paths/${path.id}/edit`)
+                            }}
+                            className="p-2 text-blue-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-200"
+                            title="Edit learning path"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                          </button>
                           {/* Delete Button */}
                           <button
                             onClick={(e) => handleDeleteClick(path.id, path.title, e)}
-                            className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                            className="p-2 text-blue-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                             title="Delete learning path"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -361,20 +367,20 @@ export default function DashboardPage() {
                       </div>
 
                       {path.description && (
-                        <p className="text-sm text-gray-700 mb-4 line-clamp-2">
+                        <p className="text-sm text-blue-700 mb-4 line-clamp-2">
                           {path.description}
                         </p>
                       )}
 
                       {/* Progress Bar */}
                       <div className="mb-4">
-                        <div className="bg-gray-200 rounded-full h-2">
+                        <div className="bg-blue-200 rounded-full h-2">
                           <div 
                             className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
                             style={{ width: `${progress}%` }}
                           />
                         </div>
-                        <p className="text-xs text-gray-600 mt-1">
+                        <p className="text-xs text-blue-600 mt-1">
                           {completedCount} of {totalCount} milestones completed
                         </p>
                       </div>
@@ -386,11 +392,11 @@ export default function DashboardPage() {
                             ? 'bg-green-100 text-green-800'
                             : path.status === 'in_progress'
                             ? 'bg-blue-100 text-blue-800'  
-                            : 'bg-gray-100 text-gray-800'
+                            : 'bg-blue-100 text-blue-800'
                         }`}>
                           {path.status.replace('_', ' ')}
                         </span>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-blue-500">
                           Created {new Date(path.created_at).toLocaleDateString()}
                         </span>
                       </div>
@@ -401,11 +407,11 @@ export default function DashboardPage() {
             ) : (
               // Empty State
               <div className="text-center py-12">
-                <div className="mx-auto h-24 w-24 text-gray-400 mb-4">
+                <div className="mx-auto h-24 w-24 text-blue-400 mb-4">
                   🚀
                 </div>
-                <h3 className="mt-2 text-sm font-medium text-gray-900">No learning paths yet</h3>
-                <p className="mt-1 text-sm text-gray-500 mb-6">
+                <h3 className="mt-2 text-sm font-medium text-slate-800">No learning paths yet</h3>
+                <p className="mt-1 text-sm text-blue-500 mb-6">
                   Get started by creating your first AI-powered learning roadmap!
                 </p>
                 <button
@@ -415,8 +421,8 @@ export default function DashboardPage() {
                   Create Your First Learning Path
                 </button>
                 <div className="mt-8 text-left max-w-md mx-auto">
-                  <h4 className="text-sm font-medium text-gray-900 mb-3">What you can do:</h4>
-                  <ul className="text-sm text-gray-600 space-y-2">
+                  <h4 className="text-sm font-medium text-slate-800 mb-3">What you can do:</h4>
+                  <ul className="text-sm text-blue-600 space-y-2">
                     <li className="flex items-center">
                       <span className="mr-2">🤖</span>
                       Create personalized learning roadmaps with AI

@@ -38,11 +38,13 @@ export async function generateLearningPath({
   skillName,
   duration,
   difficulty,
+  hoursPerWeek = 5,
   userContext = ''
 }: {
   skillName: string
   duration: number
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced'
+  hoursPerWeek?: number
   userContext?: string
 }): Promise<SkillPathGeneration> {
   try {
@@ -58,13 +60,20 @@ export async function generateLearningPath({
 
 ${userContext ? `Additional context: ${userContext}` : ''}
 
+CRITICAL CONSTRAINT: The learner has ${hoursPerWeek} hours available per week for learning. Each weekly milestone MUST contain exactly ${hoursPerWeek} hours worth of content - no more, no less. This includes all resources, exercises, and activities combined.
+
+CONTENT ALLOCATION FOR ${hoursPerWeek} HOURS PER WEEK:
+- Learning resources (videos, articles, tutorials): ${Math.ceil(hoursPerWeek * 0.6)} hours
+- Hands-on exercises and practice: ${Math.ceil(hoursPerWeek * 0.3)} hours  
+- Projects and practical application: ${Math.ceil(hoursPerWeek * 0.1)} hours
+
 IMPORTANT: Provide REAL, SPECIFIC, ACTIONABLE resources with actual URLs when possible. Don't use placeholder links.
 
 For each milestone, include:
 1. Clear, actionable title
 2. Detailed description of what to learn and practice
-3. Realistic time estimate (3-12 hours per week)
-4. SPECIFIC learning resources with REAL URLs when available:
+3. EXACTLY ${hoursPerWeek} hours of total content (sum all durations)
+4. SPECIFIC learning resources with REAL URLs and accurate time estimates:
    - Official documentation links (specific sections/chapters)
    - YouTube video tutorials (with actual video titles/creators)
    - Online courses (Coursera, Udemy, freeCodeCamp, etc.)
@@ -80,6 +89,14 @@ RESOURCE GUIDELINES:
 - For practice: Include HackerRank, LeetCode, Codewars, or similar platforms
 - For projects: Suggest real applications people can build
 - Include platform names (YouTube, GitHub, MDN, etc.)
+- ALWAYS specify accurate duration estimates that add up to exactly ${hoursPerWeek} hours
+
+TIME ALLOCATION EXAMPLE for ${hoursPerWeek} hours:
+- Video tutorial: 2 hours
+- Reading documentation: 1.5 hours  
+- Coding exercises: 1 hour
+- Mini project: 0.5 hours
+TOTAL: ${hoursPerWeek} hours (must match exactly)
 
 Format as JSON with this enhanced structure:
 {
@@ -90,7 +107,7 @@ Format as JSON with this enhanced structure:
       "title": "Week 1: Foundation Building",
       "description": "Detailed description of what to learn this week and why it matters",
       "week_number": 1,
-      "estimated_hours": 8,
+      "estimated_hours": ${hoursPerWeek},
       "resources": [
         {
           "type": "documentation",
@@ -186,11 +203,11 @@ Format as JSON with this enhanced structure:
     
     // Fallback to a basic structure if AI fails
     console.log('🔄 Falling back to manual roadmap generation...')
-    return generateFallbackPath(skillName, duration, difficulty)
+    return generateFallbackPath(skillName, duration, difficulty, hoursPerWeek)
   }
 }
 
-function generateFallbackPath(skillName: string, duration: number, difficulty: string): SkillPathGeneration {
+function generateFallbackPath(skillName: string, duration: number, difficulty: string, hoursPerWeek: number = 5): SkillPathGeneration {
   const weeksArray = Array.from({ length: duration }, (_, i) => i + 1)
   
   return {
@@ -200,7 +217,7 @@ function generateFallbackPath(skillName: string, duration: number, difficulty: s
       title: `Week ${week}: ${skillName} Fundamentals ${week > 1 ? `- Part ${week}` : ''}`,
       description: `Learn core ${skillName} concepts and practice with hands-on exercises. Build a solid foundation for advanced topics.`,
       week_number: week,
-      estimated_hours: Math.ceil(40 / duration), // Distribute 40 total hours
+      estimated_hours: hoursPerWeek, // Use the specified hours per week
       resources: [
         {
           type: 'article' as const,

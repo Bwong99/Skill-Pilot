@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body = await request.json()
-    const { skillName, duration, difficulty, userContext } = body
+    const { skillName, duration, difficulty, hoursPerWeek, userContext } = body
 
     // Validate input
     if (!skillName || !duration || !difficulty) {
@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
       skillName,
       duration,
       difficulty,
+      hoursPerWeek: hoursPerWeek || 5,
       userContext: userContext || ''
     })
 

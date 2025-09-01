@@ -38,6 +38,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
     category: '',
     customCategory: '',
     targetWeeks: 8,
+    hoursPerWeek: 5,
     difficultyLevel: 'beginner' as 'beginner' | 'intermediate' | 'advanced',
     description: ''
   })
@@ -105,6 +106,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
           title: `Learn ${formData.skillName} in ${formData.targetWeeks} Weeks`,
           description: formData.description,
           target_duration_weeks: formData.targetWeeks,
+          hours_per_week: formData.hoursPerWeek,
           difficulty_level: formData.difficultyLevel,
           status: 'not_started'
         })
@@ -147,6 +149,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
           skillName: formData.skillName,
           duration: formData.targetWeeks,
           difficulty: formData.difficultyLevel.charAt(0).toUpperCase() + formData.difficultyLevel.slice(1),
+          hoursPerWeek: formData.hoursPerWeek || 5,
           userContext: formData.description
         })
       })
@@ -214,7 +217,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
       description: `Learn fundamental concepts and practice exercises for week ${index + 1}. Build a solid foundation in ${formData.skillName}.`,
       order_index: index,
       week_number: index + 1,
-      estimated_hours: Math.ceil(40 / formData.targetWeeks), // Distribute 40 hours across weeks
+      estimated_hours: formData.hoursPerWeek, // Use hours per week setting
       resources: [
         {
           type: 'article',
@@ -318,6 +321,32 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
           />
           <p className="text-sm text-gray-500 mt-1">
             Recommended: 8-12 weeks for most skills
+          </p>
+        </div>
+
+        {/* Hours per Week */}
+        <div>
+          <label htmlFor="hoursPerWeek" className="block text-sm font-medium text-gray-700 mb-2">
+            Hours per Week
+            <span className="text-sm text-gray-500 ml-2">(Max content per week)</span>
+          </label>
+          <select
+            id="hoursPerWeek"
+            value={formData.hoursPerWeek}
+            onChange={(e) => setFormData({ ...formData, hoursPerWeek: parseInt(e.target.value) })}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          >
+            <option value={2}>2 hours/week</option>
+            <option value={3}>3 hours/week</option>
+            <option value={5}>5 hours/week</option>
+            <option value={7}>7 hours/week</option>
+            <option value={10}>10 hours/week</option>
+            <option value={15}>15 hours/week</option>
+            <option value={20}>20 hours/week</option>
+            <option value={25}>25 hours/week</option>
+          </select>
+          <p className="text-sm text-gray-500 mt-1">
+            The AI will generate exactly this many hours of content for each week
           </p>
         </div>
 
