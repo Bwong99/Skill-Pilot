@@ -2,7 +2,7 @@
 
 **ACCESS WEBSITE [HERE](BLANK)**
 
-Photography and creative photo sharing platform  
+A full-stack Next.js application leveraging Gemini AI to create customized educational skill building roadmaps. Features include user authentication via Clerk, PostgreSQL database with Supabase, styled with Tailwindcss and responsive React components, and milestone-based progress tracking. 
 
 ---
 
@@ -16,11 +16,11 @@ Photography and creative photo sharing platform
 
 ## 🧰 Tech Stack
 
-- Typescript - Programming Language
+- 📘Typescript - Programming Language
 - 📁Next.js - Web Framework and installation packages
+- 🎨Tailwindcss - CSS Framework
 - 🗄️Supabase - Database PostgreSQL
-- 📷Clerk - Secure user authentication 
-
+- 🔐Clerk - Secure user authentication 
 
 
 Website Deployment 
@@ -30,12 +30,15 @@ Website Deployment
 
 Features Coming Soon
 - 📜 See most popular roadmaps by other users
+- 📅 Import roadmaps directly into your google calendar
 
 ---
 
 ### 🖼️Demos/Screenshots
-<img src= width="1200" />
-<img src= width="1200" />
-<img src= width="1200" />
-<img src= width="1200" />
-
+<img src= "SkillPilotImage1" width="1200" />
+<img src= "SkillPilotImage2" width="1200" />
+<img src= "SkillPilotImage3" width="1200" />
+<img src= "SkillPilotImage4" width="1200" />
+<img src= "SkillPilotImage5" width="1200" />
+<img src= "SkillPilotImage6" width="1200" />
+<img src= "SkillPilotImage7" width="1200" />
