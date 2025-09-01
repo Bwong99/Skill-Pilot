@@ -24,14 +24,11 @@ const Navbar = () => {
 
       <div className="hidden lg:flex lg:items-center">
         <Button
-        
           type="button"
           title="Login"
           icon="/assets/icons/menu.svg"
-          variant="btn_dark_blue"
-          >
-
-        </Button>
+          variant="bg-blue-600 text-white px-4 py-2 hover:bg-blue-500"
+        />
       </div>
 
       <Image 
