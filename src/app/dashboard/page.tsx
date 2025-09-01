@@ -127,19 +127,32 @@ export default function DashboardPage() {
         {/* Content Area */}
         <div className="mt-8 bg-white shadow rounded-lg">
           <div className="px-4 py-5 sm:p-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
-              Welcome to SkillPilot! 🚀
-            </h3>
+            <div className="flex justify-between items-start mb-6">
+              <div>
+                <h3 className="text-lg leading-6 font-medium text-gray-900 mb-2">
+                  Welcome to SkillPilot! 🚀
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Ready to start your learning journey?
+                </p>
+              </div>
+              <button
+                onClick={() => router.push('/dashboard/create-path')}
+                className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
+              >
+                + Create Learning Path
+              </button>
+            </div>
             <div className="text-sm text-gray-600 space-y-2">
-              <p>You've successfully logged in to your SkillPilot dashboard.</p>
-              <p>Here you'll be able to:</p>
+              <p>Get started by creating your first AI-powered learning roadmap!</p>
+              <p>Here's what you can do:</p>
               <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>Track your learning progress</li>
-                <li>Access AI-powered learning resources</li>
-                <li>View your skill development journey</li>
-                <li>Connect with other learners</li>
+                <li>Create personalized learning roadmaps with AI</li>
+                <li>Track your progress week by week</li>
+                <li>Access curated resources for each skill</li>
+                <li>Set and achieve learning goals</li>
               </ul>
-              <p className="mt-4 font-medium">Your learning adventure starts here! 🎓</p>
+              <p className="mt-4 font-medium">Click "Create Learning Path" to begin! 🎓</p>
             </div>
           </div>
         </div>
