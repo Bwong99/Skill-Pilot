@@ -5,6 +5,7 @@ import Button from "./Button"
 const NAV_LINKS = [
   { href: '/', key: 'home', label: 'Home' },
   { href: '/', key: 'explore', label: 'Explore' },
+  { href: '/', key: 'dashboard', label: 'Dashboard' },
 ];
 
 const Navbar = () => {

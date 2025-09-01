@@ -29,7 +29,7 @@ const HeroFeatures = () => {
           Latest Features
         </h2>
         <p className="mt-4 text-lg text-gray-600">
-          Skill building tools
+          Skill building toolkit
         </p>
       </div>
       
