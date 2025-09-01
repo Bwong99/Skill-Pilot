@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import DeleteConfirmModal from '@/components/DeleteConfirmModal'
+import SkillTreeView from '@/components/SkillTreeView'
+import MilestoneExplanation from '@/components/MilestoneExplanation'
 
 type SkillPath = {
   id: string
@@ -58,6 +60,8 @@ export default function SkillPathPage() {
   const [error, setError] = useState('')
   const [deleteModal, setDeleteModal] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [showSkillTree, setShowSkillTree] = useState(false)
+  const [showMilestoneExplanation, setShowMilestoneExplanation] = useState(false)
   
   const supabase = createClientComponentClient()
 
@@ -249,7 +253,39 @@ export default function SkillPathPage() {
 
       {/* Milestones */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h2 className="text-2xl font-bold text-slate-900 mb-6">Learning Roadmap</h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-slate-900">Learning Roadmap</h2>
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={() => setShowMilestoneExplanation(true)}
+              className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200 transition-colors font-medium flex items-center space-x-2"
+            >
+              <span>ℹ️</span>
+              <span>What are Milestones?</span>
+            </button>
+            <button
+              onClick={() => setShowSkillTree(true)}
+              className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium flex items-center space-x-2"
+            >
+              <span>🌳</span>
+              <span>View Skill Tree</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Milestone Guide */}
+        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg p-4 mb-6">
+          <div className="flex items-start space-x-3">
+            <span className="text-2xl">🎯</span>
+            <div>
+              <h3 className="font-semibold text-indigo-900 mb-1">Your Learning Journey</h3>
+              <p className="text-sm text-indigo-800 leading-relaxed">
+                Each milestone represents one week of structured learning with curated resources and practice exercises. 
+                Complete them sequentially for the best learning experience. Click the skill tree view for a visual progression overview.
+              </p>
+            </div>
+          </div>
+        </div>
         
         <div className="space-y-6">
           {milestones.map((milestone, index) => (
@@ -276,12 +312,31 @@ export default function SkillPathPage() {
                     </button>
                   </div>
                   <div className="flex-1">
-                    <h3 className={`text-xl font-bold mb-2 ${
-                      milestone.completed ? 'text-emerald-800' : 'text-slate-900'
-                    }`}>
-                      {milestone.title}
-                    </h3>
-                    <p className={`mt-1 text-base leading-relaxed ${
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className={`text-xl font-bold ${
+                        milestone.completed ? 'text-emerald-800' : 'text-slate-900'
+                      }`}>
+                        Week {milestone.week_number}: {milestone.title}
+                      </h3>
+                      <div className="flex items-center space-x-3">
+                        <div className="flex items-center space-x-2 text-sm text-slate-600">
+                          {milestone.resources && (
+                            <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
+                              📚 {milestone.resources.length} resources
+                            </span>
+                          )}
+                          {milestone.exercises && milestone.exercises.length > 0 && (
+                            <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs font-medium">
+                              💪 {milestone.exercises.length} exercises
+                            </span>
+                          )}
+                          <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs font-medium">
+                            ⏱️ {milestone.estimated_hours}h
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <p className={`text-base leading-relaxed mb-4 ${
                       milestone.completed ? 'text-emerald-700' : 'text-slate-700'
                     }`}>
                       {milestone.description}
@@ -408,10 +463,6 @@ export default function SkillPathPage() {
                     )}
                   </div>
                 </div>
-                <div className="text-right text-sm text-gray-500">
-                  <div>Week {milestone.week_number}</div>
-                  <div>{milestone.estimated_hours}h estimated</div>
-                </div>
               </div>
             </div>
           ))}
@@ -431,6 +482,21 @@ export default function SkillPathPage() {
         onConfirm={handleDeletePath}
         pathTitle={skillPath?.title || ''}
         isDeleting={deleting}
+      />
+
+      {/* Skill Tree View Modal */}
+      {showSkillTree && (
+        <SkillTreeView
+          milestones={milestones}
+          onToggleComplete={toggleMilestoneComplete}
+          onClose={() => setShowSkillTree(false)}
+        />
+      )}
+
+      {/* Milestone Explanation Modal */}
+      <MilestoneExplanation
+        isOpen={showMilestoneExplanation}
+        onClose={() => setShowMilestoneExplanation(false)}
       />
     </div>
   )

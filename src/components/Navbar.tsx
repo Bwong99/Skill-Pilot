@@ -6,8 +6,8 @@ import Button from "./Button"
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 const NAV_LINKS = [
-  { href: '/welcome', key: 'home', label: 'Home' },
-  { href: '/welcome', key: 'explore', label: 'Explore' },
+  { href: '/welcome', key: 'welcome', label: 'Welcome' },
+  { href: '/explore', key: 'explore', label: 'Explore' },
   { href: '/dashboard', key: 'dashboard', label: 'Dashboard' },
 ];
 
