@@ -44,14 +44,14 @@ export default function ExplorePage() {
 
   useEffect(() => {
     loadPublicPaths()
-  }, [])
+  }, [user?.id]) // Reload when user changes
 
   const loadPublicPaths = async () => {
     try {
       setLoading(true)
       
-      // For now, we'll show all skill paths as "public" - in a real app you'd have a public flag
-      const { data: pathsData, error: pathsError } = await supabase
+      // Load skill paths from other users only (exclude current user's paths)
+      let query = supabase
         .from('skill_paths')
         .select(`
           id,
@@ -67,6 +67,13 @@ export default function ExplorePage() {
         `)
         .order('created_at', { ascending: false })
         .limit(50)
+
+      // Exclude current user's roadmaps if user is logged in
+      if (user?.id) {
+        query = query.neq('user_id', user.id)
+      }
+
+      const { data: pathsData, error: pathsError } = await query
 
       if (pathsError) {
         throw pathsError
