@@ -272,20 +272,6 @@ export default function SkillPathPage() {
             </button>
           </div>
         </div>
-
-        {/* Milestone Guide */}
-        <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg p-4 mb-6">
-          <div className="flex items-start space-x-3">
-            <span className="text-2xl">🎯</span>
-            <div>
-              <h3 className="font-semibold text-indigo-900 mb-1">Your Learning Journey</h3>
-              <p className="text-sm text-indigo-800 leading-relaxed">
-                Each milestone represents one week of structured learning with curated resources and practice exercises. 
-                Complete them sequentially for the best learning experience. Click the skill tree view for a visual progression overview.
-              </p>
-            </div>
-          </div>
-        </div>
         
         <div className="space-y-6">
           {milestones.map((milestone, index) => (
