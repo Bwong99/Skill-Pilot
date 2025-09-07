@@ -35,10 +35,10 @@ Features Coming Soon
 ---
 
 ### 🖼️Demos/Screenshots
-<img src= "SkillPilotImage1" width="1200" />
-<img src= "SkillPilotImage2" width="1200" />
-<img src= "SkillPilotImage3" width="1200" />
-<img src= "SkillPilotImage4" width="1200" />
-<img src= "SkillPilotImage5" width="1200" />
-<img src= "SkillPilotImage6" width="1200" />
-<img src= "SkillPilotImage7" width="1200" />
+<img src= "public/assets/images/SkillPilotImage1.png" width="1200" />
+<img src= "public/assets/images/SkillPilotImage2.png" width="1200" />
+<img src= "public/assets/images/SkillPilotImage3.png" width="1200" />
+<img src= "public/assets/images/SkillPilotImage4.png" width="1200" />
+<img src= "public/assets/images/SkillPilotImage5.png" width="1200" />
+<img src= "public/assets/images/SkillPilotImage6.png" width="1200" />
+<img src= "public/assets/images/SkillPilotImage7.png" width="1200" />
