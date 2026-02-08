@@ -14,7 +14,7 @@ const HeroCTA = () => {
         <Link href="/sign-in">
           <Button
             type="button"
-            title="Start Learning Now"
+            title="Create your first roadmap"
             variant="bg-indigo-600 text-white px-6 py-3 hover:bg-indigo-500 shadow-sm transition-colors"
           />
         </Link>
@@ -25,7 +25,7 @@ const HeroCTA = () => {
         <Link href="/dashboard">
           <Button
             type="button"
-            title="Go to Dashboard"
+            title="Back to your dashboard"
             variant="bg-green-600 text-white px-6 py-3 hover:bg-green-500 shadow-sm transition-colors"
           />
         </Link>
