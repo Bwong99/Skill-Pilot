@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import DeleteConfirmModal from '@/components/DeleteConfirmModal'
+import { BookOpen, CalendarCheck, Flag, Flame, Route, TrendingUp } from 'lucide-react'
 
 type SkillPath = {
   id: string
@@ -195,7 +196,7 @@ export default function DashboardPage() {
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <div className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">🛤️</span>
+                    <Route className="h-4 w-4 text-white" strokeWidth={2} />
                   </div>
                 </div>
                 <div className="ml-5 w-0 flex-1">
@@ -218,7 +219,7 @@ export default function DashboardPage() {
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">📈</span>
+                    <TrendingUp className="h-4 w-4 text-white" strokeWidth={2} />
                   </div>
                 </div>
                 <div className="ml-5 w-0 flex-1">
@@ -241,7 +242,7 @@ export default function DashboardPage() {
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">🎯</span>
+                    <Flag className="h-4 w-4 text-white" strokeWidth={2} />
                   </div>
                 </div>
                 <div className="ml-5 w-0 flex-1">
@@ -264,7 +265,7 @@ export default function DashboardPage() {
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">🔥</span>
+                    <Flame className="h-4 w-4 text-white" strokeWidth={2} />
                   </div>
                 </div>
                 <div className="ml-5 w-0 flex-1">
@@ -293,7 +294,7 @@ export default function DashboardPage() {
                 <p className="text-sm text-blue-600">
                   {skillPaths.length > 0 
                     ? `${skillPaths.length} active learning ${skillPaths.length === 1 ? 'path' : 'paths'}`
-                    : 'Start your learning journey'
+                    : 'Nothing in progress right now'
                   }
                 </p>
               </div>
@@ -407,37 +408,37 @@ export default function DashboardPage() {
             ) : (
               // Empty State
               <div className="text-center py-12">
-                <div className="mx-auto h-24 w-24 text-blue-400 mb-4">
-                  🚀
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50">
+                  <Route className="h-6 w-6 text-blue-400" strokeWidth={1.75} />
                 </div>
-                <h3 className="mt-2 text-sm font-medium text-slate-800">No learning paths yet</h3>
+                <h3 className="mt-2 text-sm font-medium text-slate-800">Nothing here yet</h3>
                 <p className="mt-1 text-sm text-blue-500 mb-6">
-                  Get started by creating your first AI-powered learning roadmap!
+                  Pick a skill and SkillPilot will break it into weekly milestones.
                 </p>
                 <button
                   onClick={() => router.push('/dashboard/create-path')}
                   className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
                 >
-                  Create Your First Learning Path
+                  Create a roadmap
                 </button>
                 <div className="mt-8 text-left max-w-md mx-auto">
-                  <h4 className="text-sm font-medium text-slate-800 mb-3">What you can do:</h4>
+                  <h4 className="text-sm font-medium text-slate-800 mb-3">Once you have one:</h4>
                   <ul className="text-sm text-blue-600 space-y-2">
                     <li className="flex items-center">
-                      <span className="mr-2">🤖</span>
-                      Create personalized learning roadmaps with AI
+                      <CalendarCheck className="mr-2 h-4 w-4 shrink-0" strokeWidth={1.75} />
+                      Tick off milestones as you finish each week
                     </li>
                     <li className="flex items-center">
-                      <span className="mr-2">📊</span>
-                      Track your progress week by week
+                      <BookOpen className="mr-2 h-4 w-4 shrink-0" strokeWidth={1.75} />
+                      Open the reading and exercises for any week
                     </li>
                     <li className="flex items-center">
-                      <span className="mr-2">📚</span>
-                      Access curated resources for each skill
+                      <TrendingUp className="mr-2 h-4 w-4 shrink-0" strokeWidth={1.75} />
+                      Watch progress update across all your paths
                     </li>
                     <li className="flex items-center">
-                      <span className="mr-2">🎯</span>
-                      Set and achieve learning goals
+                      <Route className="mr-2 h-4 w-4 shrink-0" strokeWidth={1.75} />
+                      Change your hours and regenerate what's left
                     </li>
                   </ul>
                 </div>
