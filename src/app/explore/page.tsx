@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useUser } from '@clerk/nextjs'
+import { Layers } from 'lucide-react'
 
 type PublicSkillPath = {
   id: string
@@ -127,7 +128,7 @@ export default function ExplorePage() {
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-indigo-500 mx-auto"></div>
-          <p className="mt-6 text-slate-600 text-lg">Discovering amazing roadmaps...</p>
+          <p className="mt-6 text-slate-600 text-lg">Loading roadmaps...</p>
         </div>
       </div>
     )
@@ -233,7 +234,7 @@ export default function ExplorePage() {
 
                 {/* Stats */}
                 <div className="flex items-center justify-between text-xs text-slate-500 mb-4">
-                  <span>📚 {path.milestones.length} milestones</span>
+                  <span className="inline-flex items-center gap-1.5"><Layers className="h-4 w-4" strokeWidth={1.75} />{path.milestones.length} milestones</span>
                   <span>👤 by {path.user_name}</span>
                   <span>📅 {new Date(path.created_at).toLocaleDateString()}</span>
                 </div>
