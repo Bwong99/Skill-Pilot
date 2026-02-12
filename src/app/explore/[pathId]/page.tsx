@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useUser } from '@clerk/nextjs'
+import { CalendarDays, Clock, Layers, MapPin } from 'lucide-react'
+import { ExerciseIcon, ResourceIcon } from '@/components/ResourceIcon'
 
 type PublicSkillPath = {
   id: string
@@ -213,9 +215,9 @@ export default function ExploreRoadmapDetailPage() {
               
               {/* Roadmap Stats */}
               <div className="flex items-center space-x-6 mt-4 text-sm text-slate-600">
-                <span>📚 {milestones.length} milestones</span>
-                <span>⏱️ {skillPath.hours_per_week || 5} hours per week</span>
-                <span>📅 Created {new Date(skillPath.created_at).toLocaleDateString()}</span>
+                <span className="inline-flex items-center gap-1.5"><Layers className="h-4 w-4" strokeWidth={1.75} />{milestones.length} milestones</span>
+                <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" strokeWidth={1.75} />{skillPath.hours_per_week || 5} hours per week</span>
+                <span className="inline-flex items-center gap-1.5"><CalendarDays className="h-4 w-4" strokeWidth={1.75} />Added {new Date(skillPath.created_at).toLocaleDateString()}</span>
               </div>
             </div>
 
@@ -322,21 +324,14 @@ export default function ExploreRoadmapDetailPage() {
                     {milestones[currentWeek].resources && milestones[currentWeek].resources.length > 0 && (
                       <div className="mb-8">
                         <h4 className="text-xl font-semibold text-slate-800 mb-4 flex items-center">
-                          📚 Learning Resources ({milestones[currentWeek].resources.length})
+                          Resources for this week ({milestones[currentWeek].resources.length})
                         </h4>
                         <div className="grid gap-4 md:grid-cols-2">
                           {milestones[currentWeek].resources.map((resource, resourceIndex) => (
                             <div key={resourceIndex} className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 hover:shadow-md transition-shadow">
                               <div className="flex items-start space-x-3">
-                                <span className="text-2xl flex-shrink-0">
-                                  {resource.type === 'video' && '🎥'}
-                                  {resource.type === 'article' && '📖'}
-                                  {resource.type === 'book' && '📚'}
-                                  {resource.type === 'practice' && '💻'}
-                                  {resource.type === 'project' && '🚀'}
-                                  {resource.type === 'documentation' && '📋'}
-                                  {resource.type === 'course' && '🎓'}
-                                  {resource.type === 'tutorial' && '👨‍💻'}
+                                <span className="flex-shrink-0 text-indigo-600">
+                                  <ResourceIcon type={resource.type} />
                                 </span>
                                 <div className="flex-1">
                                   <h5 className="font-semibold text-slate-800 mb-1">
@@ -348,12 +343,12 @@ export default function ExploreRoadmapDetailPage() {
                                   <div className="flex flex-wrap gap-2">
                                     {resource.duration && (
                                       <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
-                                        ⏱️ {resource.duration}
+                                        <Clock className="mr-1 inline h-3 w-3" strokeWidth={2} />{resource.duration}
                                       </span>
                                     )}
                                     {resource.platform && (
                                       <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs font-medium">
-                                        📍 {resource.platform}
+                                        <MapPin className="mr-1 inline h-3 w-3" strokeWidth={2} />{resource.platform}
                                       </span>
                                     )}
                                     {resource.difficulty && (
@@ -380,19 +375,14 @@ export default function ExploreRoadmapDetailPage() {
                     {milestones[currentWeek].exercises && milestones[currentWeek].exercises.length > 0 && (
                       <div>
                         <h4 className="text-xl font-semibold text-slate-800 mb-4 flex items-center">
-                          💪 Practice Exercises ({milestones[currentWeek].exercises.length})
+                          Exercises ({milestones[currentWeek].exercises.length})
                         </h4>
                         <div className="grid gap-3">
                           {milestones[currentWeek].exercises.map((exercise, exerciseIndex) => (
                             <div key={exerciseIndex} className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg p-4 border border-purple-200">
                               <div className="flex items-center justify-between mb-2">
                                 <span className="font-medium text-indigo-900 flex items-center space-x-2">
-                                  <span>
-                                    {exercise.type === 'coding' && '💻'} 
-                                    {exercise.type === 'practice' && '🔄'} 
-                                    {exercise.type === 'project' && '🚀'} 
-                                    {exercise.type === 'reading' && '📖'}
-                                  </span>
+                                  <ExerciseIcon type={exercise.type} />
                                   <span>{exercise.title}</span>
                                 </span>
                                 <div className="flex gap-2">
@@ -406,7 +396,7 @@ export default function ExploreRoadmapDetailPage() {
                                     {exercise.difficulty}
                                   </span>
                                   <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-medium">
-                                    ⏱️ {exercise.estimated_time}
+                                    <Clock className="mr-1 inline h-3 w-3" strokeWidth={2} />{exercise.estimated_time}
                                   </span>
                                 </div>
                               </div>
@@ -452,7 +442,7 @@ export default function ExploreRoadmapDetailPage() {
 
         {/* Clone CTA */}
         <div className="mt-12 text-center bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-8 text-white">
-          <h3 className="text-2xl font-bold mb-4">Ready to start your learning journey?</h3>
+          <h3 className="text-2xl font-bold mb-4">Want a version of this for yourself?</h3>
           <p className="text-indigo-100 mb-6 max-w-2xl mx-auto">
             Clone this roadmap to your dashboard to track progress, mark milestones as complete, and make it your own!
           </p>
