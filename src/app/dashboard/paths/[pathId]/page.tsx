@@ -7,6 +7,8 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import DeleteConfirmModal from '@/components/DeleteConfirmModal'
 import SkillTreeView from '@/components/SkillTreeView'
 import MilestoneExplanation from '@/components/MilestoneExplanation'
+import { BookOpen, Clock, Dumbbell, Info, Network } from 'lucide-react'
+import { ExerciseIcon, ResourceIcon } from '@/components/ResourceIcon'
 
 type SkillPath = {
   id: string
@@ -260,14 +262,14 @@ export default function SkillPathPage() {
               onClick={() => setShowMilestoneExplanation(true)}
               className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200 transition-colors font-medium flex items-center space-x-2"
             >
-              <span>ℹ️</span>
+              <Info className="h-4 w-4" strokeWidth={1.75} />
               <span>What are Milestones?</span>
             </button>
             <button
               onClick={() => setShowSkillTree(true)}
               className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium flex items-center space-x-2"
             >
-              <span>🌳</span>
+              <Network className="h-4 w-4" strokeWidth={1.75} />
               <span>View Skill Tree</span>
             </button>
           </div>
@@ -308,16 +310,16 @@ export default function SkillPathPage() {
                         <div className="flex items-center space-x-2 text-sm text-slate-600">
                           {milestone.resources && (
                             <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
-                              📚 {milestone.resources.length} resources
+                              <BookOpen className="mr-1 inline h-3.5 w-3.5" strokeWidth={1.75} />{milestone.resources.length} resources
                             </span>
                           )}
                           {milestone.exercises && milestone.exercises.length > 0 && (
                             <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs font-medium">
-                              💪 {milestone.exercises.length} exercises
+                              <Dumbbell className="mr-1 inline h-3.5 w-3.5" strokeWidth={1.75} />{milestone.exercises.length} exercises
                             </span>
                           )}
                           <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs font-medium">
-                            ⏱️ {milestone.estimated_hours}h
+                            <Clock className="mr-1 inline h-3.5 w-3.5" strokeWidth={1.75} />{milestone.estimated_hours}h
                           </span>
                         </div>
                       </div>
@@ -332,7 +334,7 @@ export default function SkillPathPage() {
                     {milestone.resources && milestone.resources.length > 0 && (
                       <div className="mt-6">
                         <h4 className="text-lg font-semibold text-slate-800 mb-4 flex items-center">
-                          📚 Learning Resources
+                          Resources for this week
                         </h4>
                         <div className="grid gap-4">
                           {milestone.resources.map((resource, resourceIndex) => (
@@ -341,14 +343,7 @@ export default function SkillPathPage() {
                                 <div className="flex-1">
                                   <div className="flex items-center space-x-3 mb-2">
                                     <span className="text-xl">
-                                      {resource.type === 'video' && '🎥'}
-                                      {resource.type === 'article' && '📖'}
-                                      {resource.type === 'book' && '📚'}
-                                      {resource.type === 'practice' && '💻'}
-                                      {resource.type === 'project' && '🚀'}
-                                      {resource.type === 'documentation' && '📋'}
-                                      {resource.type === 'course' && '🎓'}
-                                      {resource.type === 'tutorial' && '👨‍💻'}
+                                      <ResourceIcon type={resource.type} />
                                     </span>
                                     {resource.url ? (
                                       <a 
@@ -381,7 +376,7 @@ export default function SkillPathPage() {
                                     )}
                                     {resource.duration && (
                                       <span className="bg-slate-200 text-slate-700 px-3 py-1 rounded-full font-medium">
-                                        ⏱️ {resource.duration}
+                                        <Clock className="mr-1 inline h-3 w-3" strokeWidth={2} />{resource.duration}
                                       </span>
                                     )}
                                     {resource.difficulty && (
@@ -397,7 +392,7 @@ export default function SkillPathPage() {
                                     )}
                                     {resource.section && (
                                       <span className="bg-purple-200 text-purple-800 px-3 py-1 rounded-full font-medium">
-                                        📖 {resource.section}
+                                        <BookOpen className="mr-1 inline h-3 w-3" strokeWidth={2} />{resource.section}
                                       </span>
                                     )}
                                   </div>
@@ -413,17 +408,14 @@ export default function SkillPathPage() {
                     {milestone.exercises && milestone.exercises.length > 0 && (
                       <div className="mt-4">
                         <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
-                          💪 Practice Exercises
+                          Exercises
                         </h4>
                         <div className="grid gap-2">
                           {milestone.exercises.map((exercise, exerciseIndex) => (
                             <div key={exerciseIndex} className="bg-indigo-50 rounded-lg p-3 border border-indigo-200">
                               <div className="flex items-center justify-between mb-1">
                                 <span className="text-sm font-medium text-indigo-900">
-                                  {exercise.type === 'coding' && '💻'} 
-                                  {exercise.type === 'practice' && '🔄'} 
-                                  {exercise.type === 'project' && '🚀'} 
-                                  {exercise.type === 'reading' && '📖'} 
+                                  <ExerciseIcon type={exercise.type} />
                                   {exercise.title}
                                 </span>
                                 <div className="flex gap-1">
@@ -437,7 +429,7 @@ export default function SkillPathPage() {
                                     {exercise.difficulty}
                                   </span>
                                   <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
-                                    ⏱️ {exercise.estimated_time}
+                                    <Clock className="mr-1 inline h-3 w-3" strokeWidth={2} />{exercise.estimated_time}
                                   </span>
                                 </div>
                               </div>
