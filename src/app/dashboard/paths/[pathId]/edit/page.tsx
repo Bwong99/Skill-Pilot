@@ -431,7 +431,7 @@ export default function EditSkillPathPage() {
                     <option value={25}>25 hours/week</option>
                   </select>
                   <p className="text-sm text-blue-600 mt-1">
-                    💡 Changing hours per week will regenerate your roadmap with content that fits the new time allocation
+                    Changing your hours rebuilds the remaining weeks to fit the new schedule. Completed milestones stay as they are.
                   </p>
                 </div>
               </div>
