@@ -1,5 +1,7 @@
 'use client'
 
+import { BookOpen, Clock, Dumbbell } from 'lucide-react'
+
 type MilestoneExplanationProps = {
   isOpen: boolean
   onClose: () => void
@@ -15,7 +17,7 @@ export default function MilestoneExplanation({ isOpen, onClose }: MilestoneExpla
         <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
           <div>
             <h2 className="text-2xl font-bold">What are Milestones?</h2>
-            <p className="text-indigo-100 mt-1">Understanding your learning journey structure</p>
+            <p className="text-indigo-100 mt-1">How your roadmap is put together</p>
           </div>
           <button
             onClick={onClose}
@@ -32,24 +34,24 @@ export default function MilestoneExplanation({ isOpen, onClose }: MilestoneExpla
           {/* Overview */}
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-5 border border-blue-200">
             <h3 className="text-lg font-semibold text-blue-900 mb-3 flex items-center">
-              🎯 What is a Milestone?
+              What a milestone is
             </h3>
             <p className="text-blue-800 leading-relaxed">
-              A milestone represents one week of structured learning in your skill development journey. Each milestone contains carefully curated resources, practice exercises, and learning objectives designed to help you progress systematically toward mastery.
+One milestone is one week of work. It holds the things you read or watch that week, a few exercises to try, and an estimate of how long it should take.
             </p>
           </div>
 
           {/* Structure */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 What's Inside Each Milestone?</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">What is inside one</h3>
             <div className="grid gap-4">
               <div className="border border-gray-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
-                  <span className="text-2xl">📚</span>
+                  <BookOpen className="h-5 w-5 shrink-0 text-indigo-600" strokeWidth={1.75} />
                   <div>
                     <h4 className="font-semibold text-gray-900">Learning Resources</h4>
                     <p className="text-sm text-gray-600 mt-1">
-                      Curated videos, articles, documentation, and courses tailored to your skill level and time commitment.
+Videos, articles, docs and courses picked for your level and the time you have.
                     </p>
                     <div className="flex flex-wrap gap-2 mt-2">
                       <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Videos</span>
@@ -63,11 +65,11 @@ export default function MilestoneExplanation({ isOpen, onClose }: MilestoneExpla
 
               <div className="border border-gray-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
-                  <span className="text-2xl">💪</span>
+                  <Dumbbell className="h-5 w-5 shrink-0 text-indigo-600" strokeWidth={1.75} />
                   <div>
                     <h4 className="font-semibold text-gray-900">Practice Exercises</h4>
                     <p className="text-sm text-gray-600 mt-1">
-                      Hands-on coding challenges, projects, and practice activities to reinforce your learning.
+Something to build or solve, so the week does not end up being all reading.
                     </p>
                     <div className="flex flex-wrap gap-2 mt-2">
                       <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Easy</span>
@@ -80,11 +82,11 @@ export default function MilestoneExplanation({ isOpen, onClose }: MilestoneExpla
 
               <div className="border border-gray-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
-                  <span className="text-2xl">⏱️</span>
+                  <Clock className="h-5 w-5 shrink-0 text-indigo-600" strokeWidth={1.75} />
                   <div>
-                    <h4 className="font-semibold text-gray-900">Time Management</h4>
+                    <h4 className="font-semibold text-gray-900">Hour estimates</h4>
                     <p className="text-sm text-gray-600 mt-1">
-                      Each milestone is designed to fit your weekly time commitment, with estimated hours for optimal learning pace.
+Every week is sized to the hours you said you had, so you can tell in advance if it fits.
                     </p>
                   </div>
                 </div>
@@ -94,7 +96,7 @@ export default function MilestoneExplanation({ isOpen, onClose }: MilestoneExpla
 
           {/* How it Works */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">🔄 How Do Milestones Work?</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">How they fit together</h3>
             <div className="space-y-4">
               <div className="flex items-start space-x-4">
                 <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
@@ -135,31 +137,31 @@ export default function MilestoneExplanation({ isOpen, onClose }: MilestoneExpla
           {/* Benefits */}
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-5 border border-green-200">
             <h3 className="text-lg font-semibold text-green-900 mb-3 flex items-center">
-              ⭐ Why Use Milestones?
+              Why it is split up this way
             </h3>
             <ul className="space-y-2 text-green-800">
               <li className="flex items-center space-x-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                <span>Clear structure prevents overwhelm and analysis paralysis</span>
+                <span>A week is small enough to actually start on a Monday</span>
               </li>
               <li className="flex items-center space-x-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                <span>Progress tracking provides motivation and accountability</span>
+                <span>Ticking one off gives you a real sense of where you are</span>
               </li>
               <li className="flex items-center space-x-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                <span>Bite-sized chunks make complex skills manageable</span>
+                <span>Big skills stop looking like one impossible block</span>
               </li>
               <li className="flex items-center space-x-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                <span>Curated resources save time on research and planning</span>
+                <span>You skip the hour normally spent deciding what to read</span>
               </li>
             </ul>
           </div>
 
           {/* Visual Guide */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">🗺️ Skill Tree Visualization</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">The skill tree</h3>
             <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
               <p className="text-sm text-gray-700 mb-3">
                 Click the "View Skill Tree" button to see your learning path as an interactive visual tree:
@@ -190,7 +192,7 @@ export default function MilestoneExplanation({ isOpen, onClose }: MilestoneExpla
         <div className="border-t border-gray-200 p-6 bg-gray-50">
           <div className="text-center">
             <p className="text-sm text-gray-600 mb-4">
-              Ready to start your learning journey? Each milestone brings you one step closer to mastery!
+That is the whole idea. Pick a week and get started.
             </p>
             <button
               onClick={onClose}
