@@ -72,7 +72,7 @@ export default function SkillTreeView({ milestones, onToggleComplete, onClose }:
         <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
           <div>
             <h2 className="text-2xl font-bold">Learning Skill Tree</h2>
-            <p className="text-indigo-100 mt-1">Visual progression through your learning journey</p>
+            <p className="text-indigo-100 mt-1">Your weeks, laid out end to end</p>
           </div>
           <button
             onClick={onClose}
@@ -95,12 +95,8 @@ export default function SkillTreeView({ milestones, onToggleComplete, onClose }:
                     {/* Phase Title */}
                     <div className="text-center mb-6">
                       <div className="inline-flex items-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-full text-lg font-semibold shadow-lg">
-                        <span className="mr-2">
-                          {phaseIndex === 0 && '🌱'}
-                          {phaseIndex === 1 && '🌿'}
-                          {phaseIndex === 2 && '🌳'}
-                          {phaseIndex === 3 && '🏆'}
-                          {phaseIndex >= 4 && '⭐'}
+                        <span className="mr-2 text-sm font-normal text-indigo-100">
+                          Phase {phaseIndex + 1}
                         </span>
                         {getPhaseTitle(phaseIndex)}
                       </div>
@@ -212,7 +208,7 @@ export default function SkillTreeView({ milestones, onToggleComplete, onClose }:
                 {selectedMilestone.resources && selectedMilestone.resources.length > 0 && (
                   <div className="mb-4">
                     <h5 className="font-semibold text-gray-800 mb-2 flex items-center">
-                      📚 Resources ({selectedMilestone.resources.length})
+                      Resources ({selectedMilestone.resources.length})
                     </h5>
                     <div className="space-y-2">
                       {selectedMilestone.resources.slice(0, 3).map((resource, index) => (
@@ -239,7 +235,7 @@ export default function SkillTreeView({ milestones, onToggleComplete, onClose }:
                 {selectedMilestone.exercises && selectedMilestone.exercises.length > 0 && (
                   <div>
                     <h5 className="font-semibold text-gray-800 mb-2 flex items-center">
-                      💪 Exercises ({selectedMilestone.exercises.length})
+                      Exercises ({selectedMilestone.exercises.length})
                     </h5>
                     <div className="space-y-2">
                       {selectedMilestone.exercises.slice(0, 2).map((exercise, index) => (
