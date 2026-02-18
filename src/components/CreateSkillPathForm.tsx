@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Sparkles } from 'lucide-react'
 
 type CreateSkillPathFormProps = {
   onSuccess?: (skillPathId: string) => void
@@ -426,7 +427,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
             </>
           ) : (
             <>
-              <span className="mr-2">🧠</span>
+              <Sparkles className="mr-2 h-4 w-4" strokeWidth={1.75} />
               Generate Gemini AI Learning Roadmap
             </>
           )}

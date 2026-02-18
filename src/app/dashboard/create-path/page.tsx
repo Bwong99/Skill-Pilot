@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import CreateSkillPathForm from '@/components/CreateSkillPathForm'
+import { CalendarClock, ListChecks, Wand2 } from 'lucide-react'
 
 export default function CreatePathPage() {
   const router = useRouter()
@@ -16,10 +17,10 @@ export default function CreatePathPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Start Your Learning Journey
+            What do you want to learn?
           </h1>
           <p className="text-lg text-gray-600">
-            Tell us what you want to learn, and our AI will create a personalized roadmap just for you
+            Give it a skill, a rough timeline and your weekly hours. You will get the weeks back broken down.
           </p>
         </div>
 
@@ -29,24 +30,30 @@ export default function CreatePathPage() {
         {/* Features */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center p-6 bg-white rounded-lg shadow-sm">
-            <div className="text-4xl mb-4">🤖</div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">AI-Powered</h3>
+            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-indigo-50">
+              <Wand2 className="h-5 w-5 text-indigo-600" strokeWidth={1.75} />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Drafted for you</h3>
             <p className="text-gray-600">
-              Our AI analyzes your goals and creates a customized learning path
+              Gemini writes the first version. Everything in it stays editable afterwards.
             </p>
           </div>
           <div className="text-center p-6 bg-white rounded-lg shadow-sm">
-            <div className="text-4xl mb-4">⏱️</div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Time-Based</h3>
+            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-indigo-50">
+              <CalendarClock className="h-5 w-5 text-indigo-600" strokeWidth={1.75} />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Sized to your week</h3>
             <p className="text-gray-600">
-              Set your timeline and get weekly milestones to keep you on track
+              Five hours a week and twenty hours a week produce very different plans.
             </p>
           </div>
           <div className="text-center p-6 bg-white rounded-lg shadow-sm">
-            <div className="text-4xl mb-4">📈</div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Track Progress</h3>
+            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-indigo-50">
+              <ListChecks className="h-5 w-5 text-indigo-600" strokeWidth={1.75} />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Progress you can see</h3>
             <p className="text-gray-600">
-              Monitor your learning progress and celebrate your achievements
+              Completed weeks roll up into a percentage on your dashboard.
             </p>
           </div>
         </div>
