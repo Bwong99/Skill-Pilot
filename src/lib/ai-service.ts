@@ -48,7 +48,7 @@ export async function generateLearningPath({
   userContext?: string
 }): Promise<SkillPathGeneration> {
   try {
-    console.log('🤖 Starting AI generation with Gemini 2.5 Flash-Lite...')
+    console.log('Starting roadmap generation with Gemini 2.5 Flash-Lite')
     console.log(`Parameters: ${skillName}, ${duration} weeks, ${difficulty}`)
     
     // Check if API key is configured
@@ -101,7 +101,7 @@ TOTAL: ${hoursPerWeek} hours (must match exactly)
 Format as JSON with this enhanced structure:
 {
   "title": "Comprehensive Learning Path Title",
-  "description": "Detailed description of the learning journey and real-world outcomes",
+  "description": "What this path covers and what you will be able to build by the end",
   "milestones": [
     {
       "title": "Week 1: Foundation Building",
@@ -271,9 +271,9 @@ export async function generatePersonalizedSuggestions(skillName: string): Promis
     return [
       `${skillName} is in high demand across industries`,
       `Build valuable technical skills for career growth`,
-      `Create amazing projects and solutions`,
+      `Build projects you can actually show people`,
       `Join a thriving community of developers`,
-      `Unlock new opportunities and possibilities`
+      `Take on work that needs this skill`
     ]
   }
 }
