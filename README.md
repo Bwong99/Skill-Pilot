@@ -1,44 +1,51 @@
-# SkillPilot 
+# SkillPilot
 
-**ACCESS WEBSITE [HERE](https://skillpilotapp.vercel.app/welcome)**
+**Live at [skillpilotapp.vercel.app](https://skillpilotapp.vercel.app/welcome)**
 
-A full-stack Next.js application leveraging Gemini AI to create customized educational skill building roadmaps. Features include user authentication via Clerk, PostgreSQL database with Supabase, styled with Tailwindcss and responsive React components, and milestone-based progress tracking. 
+SkillPilot turns a skill you want to learn into a week by week plan you can actually follow. You give it the skill, a rough timeline, and how many hours a week you realistically have. It returns a set of weekly milestones, each with reading, exercises and an hour estimate, and tracks what you have finished.
 
----
-
-## 🚀 Features
-- 📲 **Mobile Compatible** Works seemlessly on mobile devices
-- 🔄 **Account and roadmap management** PostgreSQL Database 
-- 🎨 **Interactive UI/UX** responsive design  
-- 👥 **Live collaboration** through follows and post saves
-  
----
-
-## 🧰 Tech Stack
-
-- 📘Typescript - Programming Language
-- 📁Next.js - Web Framework and installation packages
-- 🎨Tailwindcss - CSS Framework
-- 🗄️Supabase - Database PostgreSQL
-- 🔐Clerk - Secure user authentication 
-
-
-Website Deployment 
-- 🎯 Vercel
+The idea came from a simple problem: most roadmaps you find online assume you have unlimited evenings. This one starts from your schedule instead.
 
 ---
 
-Features Coming Soon
-- 📜 See most popular roadmaps by other users
-- 📅 Import roadmaps directly into your google calendar
+## Features
+
+- **Roadmaps sized to your week.** Hours per week is an input, not an afterthought, so a five hour week and a twenty hour week give you different plans.
+- **Weekly milestones.** Each week has its own resources, exercises and time estimate.
+- **Editable after generation.** Change your hours and the remaining weeks regenerate. Completed milestones are left alone.
+- **Progress tracking.** Milestone completion rolls up into a percentage per path and across your dashboard.
+- **Public explore page.** Browse roadmaps other people have created.
+- **Works on mobile.**
+
+## Tech stack
+
+| | |
+|---|---|
+| Language | TypeScript |
+| Framework | Next.js 15 (App Router) |
+| Styling | Tailwind CSS |
+| Database | Supabase (PostgreSQL) |
+| Auth | Clerk |
+| Generation | Google Gemini 2.5 Flash-Lite |
+| Hosting | Vercel |
+
+## Running it locally
+
+```bash
+npm install
+npm run dev
+```
+
+You will need a `.env.local` with Clerk, Supabase and Gemini keys. Without them the app builds but cannot render authenticated pages.
+
+## Planned
+
+- Sort the explore page by most saved
+- Clone someone else's roadmap into your own dashboard
+- Export a roadmap to Google Calendar
 
 ---
 
-### 🖼️Demos/Screenshots
-<img src= "public/assets/images/SkillPilotImage1.png" width="1200" />
-<img src= "public/assets/images/SkillPilotImage2.png" width="1200" />
-<img src= "public/assets/images/SkillPilotImage3.png" width="1200" />
-<img src= "public/assets/images/SkillPilotImage4.png" width="1200" />
-<img src= "public/assets/images/SkillPilotImage5.png" width="1200" />
-<img src= "public/assets/images/SkillPilotImage6.png" width="1200" />
-<img src= "public/assets/images/SkillPilotImage7.png" width="1200" />
+### Screenshots
+
+Screenshots are being retaken after the interface refresh. Coming back shortly.
