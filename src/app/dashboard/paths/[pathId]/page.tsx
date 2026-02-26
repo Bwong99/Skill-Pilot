@@ -7,8 +7,9 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import DeleteConfirmModal from '@/components/DeleteConfirmModal'
 import SkillTreeView from '@/components/SkillTreeView'
 import MilestoneExplanation from '@/components/MilestoneExplanation'
-import { BookOpen, Clock, Dumbbell, Info, Network } from 'lucide-react'
+import { BookOpen, Check, Clock, Dumbbell, Info, Network } from 'lucide-react'
 import { ExerciseIcon, ResourceIcon } from '@/components/ResourceIcon'
+import RoadmapTimeline from '@/components/visualizations/RoadmapTimeline'
 
 type SkillPath = {
   id: string
@@ -170,7 +171,7 @@ export default function SkillPathPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand-500 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading your learning path...</p>
         </div>
       </div>
@@ -185,7 +186,7 @@ export default function SkillPathPage() {
           <p className="text-gray-600 mb-4">{error || 'Skill path not found'}</p>
           <button
             onClick={() => router.push('/dashboard')}
-            className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700"
+            className="bg-brand-500 text-white px-6 py-3 rounded-lg hover:bg-brand-600"
           >
             Back to Dashboard
           </button>
@@ -204,7 +205,7 @@ export default function SkillPathPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <button
             onClick={() => router.push('/dashboard')}
-            className="text-indigo-600 hover:text-indigo-500 mb-4 flex items-center font-medium"
+            className="text-brand-500 hover:text-brand-500 mb-4 flex items-center font-medium"
           >
             ← Back to Dashboard
           </button>
@@ -222,7 +223,7 @@ export default function SkillPathPage() {
             <div className="flex items-start space-x-4">
               {/* Progress Display */}
               <div className="text-right">
-                <div className="text-2xl font-bold text-indigo-600">{Math.round(progress)}%</div>
+                <div className="text-2xl font-bold text-brand-500">{Math.round(progress)}%</div>
                 <div className="text-sm text-slate-600 font-medium">Complete</div>
               </div>
               {/* Delete Button */}
@@ -242,7 +243,7 @@ export default function SkillPathPage() {
           <div className="mt-6">
             <div className="bg-slate-200 rounded-full h-3">
               <div 
-                className="bg-indigo-600 h-3 rounded-full transition-all duration-300"
+                className="bg-brand-500 h-3 rounded-full transition-all duration-300"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -255,6 +256,10 @@ export default function SkillPathPage() {
 
       {/* Milestones */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <RoadmapTimeline milestones={milestones} />
+        </div>
+
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-slate-900">Learning Roadmap</h2>
           <div className="flex items-center space-x-3">
@@ -267,7 +272,7 @@ export default function SkillPathPage() {
             </button>
             <button
               onClick={() => setShowSkillTree(true)}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium flex items-center space-x-2"
+              className="bg-brand-500 text-white px-4 py-2 rounded-lg hover:bg-brand-600 transition-colors font-medium flex items-center space-x-2"
             >
               <Network className="h-4 w-4" strokeWidth={1.75} />
               <span>View Skill Tree</span>
@@ -282,7 +287,7 @@ export default function SkillPathPage() {
               className={`rounded-lg shadow-lg border-2 p-6 transition-all duration-200 ${
                 milestone.completed 
                   ? 'border-emerald-400 bg-emerald-50 shadow-emerald-100' 
-                  : 'border-slate-300 bg-white shadow-slate-200 hover:border-indigo-400 hover:shadow-indigo-100'
+                  : 'border-slate-300 bg-white shadow-slate-200 hover:border-brand-400 hover:shadow-brand-50'
               }`}
             >
               <div className="flex items-start justify-between">
@@ -293,10 +298,10 @@ export default function SkillPathPage() {
                       className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                         milestone.completed
                           ? 'bg-green-500 border-green-500 text-white'
-                          : 'border-gray-300 hover:border-indigo-500'
+                          : 'border-gray-300 hover:border-brand-500'
                       }`}
                     >
-                      {milestone.completed && '✓'}
+                      {milestone.completed && <Check className="h-3.5 w-3.5" strokeWidth={3} />}
                     </button>
                   </div>
                   <div className="flex-1">
@@ -338,7 +343,7 @@ export default function SkillPathPage() {
                         </h4>
                         <div className="grid gap-4">
                           {milestone.resources.map((resource, resourceIndex) => (
-                            <div key={resourceIndex} className="bg-slate-50 border-2 border-slate-200 rounded-xl p-4 hover:bg-slate-100 hover:border-indigo-300 transition-all duration-200">
+                            <div key={resourceIndex} className="bg-slate-50 border-2 border-slate-200 rounded-xl p-4 hover:bg-slate-100 hover:border-brand-300 transition-all duration-200">
                               <div className="flex items-start justify-between">
                                 <div className="flex-1">
                                   <div className="flex items-center space-x-3 mb-2">
@@ -350,7 +355,7 @@ export default function SkillPathPage() {
                                         href={resource.url} 
                                         target="_blank" 
                                         rel="noopener noreferrer"
-                                        className="text-base font-semibold text-indigo-700 hover:text-indigo-800 hover:underline"
+                                        className="text-base font-semibold text-brand-600 hover:text-brand-700 hover:underline"
                                       >
                                         {resource.title}
                                       </a>
@@ -360,7 +365,7 @@ export default function SkillPathPage() {
                                       </span>
                                     )}
                                     {resource.url && (
-                                      <span className="text-sm text-indigo-600 font-bold">↗</span>
+                                      <span className="text-sm text-brand-500 font-bold">↗</span>
                                     )}
                                   </div>
                                   
@@ -412,9 +417,9 @@ export default function SkillPathPage() {
                         </h4>
                         <div className="grid gap-2">
                           {milestone.exercises.map((exercise, exerciseIndex) => (
-                            <div key={exerciseIndex} className="bg-indigo-50 rounded-lg p-3 border border-indigo-200">
+                            <div key={exerciseIndex} className="bg-brand-50 rounded-lg p-3 border border-brand-200">
                               <div className="flex items-center justify-between mb-1">
-                                <span className="text-sm font-medium text-indigo-900">
+                                <span className="text-sm font-medium text-brand-700">
                                   <ExerciseIcon type={exercise.type} />
                                   {exercise.title}
                                 </span>
@@ -433,7 +438,7 @@ export default function SkillPathPage() {
                                   </span>
                                 </div>
                               </div>
-                              <p className="text-xs text-indigo-700">{exercise.description}</p>
+                              <p className="text-xs text-brand-600">{exercise.description}</p>
                             </div>
                           ))}
                         </div>
