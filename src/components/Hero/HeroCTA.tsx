@@ -1,35 +1,35 @@
 'use client'
 
-import { SignedIn, SignedOut, useUser } from '@clerk/nextjs'
+import { SignedIn, SignedOut } from '@clerk/nextjs'
 import Link from 'next/link'
-import Button from '../Button'
+import { ArrowRight } from 'lucide-react'
+
+const buttonClass =
+  'group inline-flex items-center gap-2 rounded-full bg-brand-500 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950'
 
 const HeroCTA = () => {
-  const { user } = useUser()
-
   return (
-    <div className="mt-10 flex items-center justify-center">
-      {/* When user is signed out - show login button */}
+    <div className="mt-9 flex flex-wrap items-center gap-4">
       <SignedOut>
-        <Link href="/sign-in">
-          <Button
-            type="button"
-            title="Create your first roadmap"
-            variant="bg-indigo-600 text-white px-6 py-3 hover:bg-indigo-500 shadow-sm transition-colors"
-          />
+        <Link href="/sign-in" className={buttonClass}>
+          Build a roadmap
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" strokeWidth={2} />
         </Link>
       </SignedOut>
 
-      {/* When user is signed in - show dashboard button */}
       <SignedIn>
-        <Link href="/dashboard">
-          <Button
-            type="button"
-            title="Back to your dashboard"
-            variant="bg-green-600 text-white px-6 py-3 hover:bg-green-500 shadow-sm transition-colors"
-          />
+        <Link href="/dashboard" className={buttonClass}>
+          Open your dashboard
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" strokeWidth={2} />
         </Link>
       </SignedIn>
+
+      <Link
+        href="/explore"
+        className="inline-flex items-center gap-2 rounded-full border border-ink-600 px-7 py-3.5 text-sm font-semibold text-ink-200 transition-colors hover:border-ink-500 hover:text-white"
+      >
+        Browse roadmaps
+      </Link>
     </div>
   )
 }
