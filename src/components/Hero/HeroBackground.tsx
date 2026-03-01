@@ -1,7 +1,20 @@
 const HeroBackground = () => {
   return (
-    <div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
-      <div className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]" />
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      {/* Cool glow behind the showcase, echoing the light source in the mock */}
+      <div className="absolute right-[-10%] top-[8%] h-[38rem] w-[38rem] rounded-full bg-brand-600/25 blur-[120px]" />
+      <div className="absolute left-[-15%] bottom-[-10%] h-[30rem] w-[30rem] rounded-full bg-brand-700/15 blur-[120px]" />
+      {/* Faint grid to keep the flat navy from reading as empty */}
+      <div
+        className="absolute inset-0 opacity-[0.15]"
+        style={{
+          backgroundImage:
+            'linear-gradient(to right, #1a2543 1px, transparent 1px), linear-gradient(to bottom, #1a2543 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+          maskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent)',
+          WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent)',
+        }}
+      />
     </div>
   )
 }
