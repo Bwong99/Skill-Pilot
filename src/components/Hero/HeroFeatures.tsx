@@ -1,55 +1,49 @@
-import { CalendarClock, ListChecks, RefreshCw, SlidersHorizontal } from 'lucide-react'
+import { GitBranch, Map, Route } from 'lucide-react'
 
 const HeroFeatures = () => {
-  const features = [
+  const views = [
     {
-      Icon: CalendarClock,
-      title: "Built around your week",
-      description: "Tell it how many hours you actually have. The roadmap is sized to that, not to an ideal schedule."
+      Icon: Route,
+      title: "Timeline",
+      description:
+        "Every week on one track, with the hours it should take. The solid run shows how far you actually got.",
     },
     {
-      Icon: ListChecks,
-      title: "Weekly milestones",
-      description: "Each week gets its own resources, exercises and an hour estimate, so you always know what's next."
+      Icon: GitBranch,
+      title: "Skill tree",
+      description:
+        "Where each week branches off the last, so you can see what has to come before what.",
     },
     {
-      Icon: RefreshCw,
-      title: "Change it later",
-      description: "Editing your hours regenerates the remaining weeks. Nothing is locked in once it's created."
+      Icon: Map,
+      title: "Skill map",
+      description:
+        "The surrounding topics and how they connect, so you know what a skill sits next to.",
     },
-    {
-      Icon: SlidersHorizontal,
-      title: "Yours to adjust",
-      description: "Rename milestones, drop the ones you've already covered, and mark off what you finish."
-    }
   ]
 
   return (
-    <div className="mt-20">
-      <div className="text-center mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-          What it does
+    <div className="mx-auto max-w-5xl">
+      <div className="mb-12 text-center">
+        <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          Three ways to look at the same plan
         </h2>
-        <p className="mt-4 text-lg text-gray-600">
-          Four things that make a plan worth sticking to
+        <p className="mt-4 text-base text-ink-300">
+          A list of weeks tells you what is next. These tell you where you are.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {features.map(({ Icon, title, description }) => (
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+        {views.map(({ Icon, title, description }) => (
           <div
             key={title}
-            className="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+            className="rounded-xl border border-ink-700 bg-ink-900/60 p-6 text-left transition-colors hover:border-ink-600"
           >
-            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-indigo-50">
-              <Icon className="h-5 w-5 text-indigo-600" strokeWidth={1.75} />
+            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-500/10">
+              <Icon className="h-5 w-5 text-brand-400" strokeWidth={1.75} />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2 text-center">
-              {title}
-            </h3>
-            <p className="text-sm text-gray-600 leading-relaxed text-center max-w-xs">
-              {description}
-            </p>
+            <h3 className="mb-2 text-lg font-semibold text-white">{title}</h3>
+            <p className="text-sm leading-relaxed text-ink-300">{description}</p>
           </div>
         ))}
       </div>
