@@ -2,49 +2,47 @@ import Link from 'next/link'
 import { Github, Mail } from 'lucide-react'
 
 const HeroContact = () => {
+  const links = [
+    {
+      Icon: Mail,
+      label: 'Email',
+      value: 'bwong999@student.ubc.ca',
+      href: 'mailto:bwong999@student.ubc.ca',
+      external: false,
+    },
+    {
+      Icon: Github,
+      label: 'GitHub',
+      value: '@Bwong99',
+      href: 'https://github.com/Bwong99',
+      external: true,
+    },
+  ]
+
   return (
-    <div className="mt-20 text-center">
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-          Get in touch
-        </h2>
-        <p className="mt-4 text-lg text-gray-600">
-          Questions, bugs, or ideas for what to add next
-        </p>
-      </div>
+    <div className="mx-auto max-w-3xl text-center">
+      <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Get in touch</h2>
+      <p className="mt-4 text-base text-ink-300">
+        Questions, bugs, or ideas for what to add next
+      </p>
 
-      <div className="flex justify-center gap-8">
-        <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-          <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-indigo-50">
-            <Mail className="h-5 w-5 text-indigo-600" strokeWidth={1.75} />
-          </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            Email
-          </h3>
+      <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        {links.map(({ Icon, label, value, href, external }) => (
           <Link
-            href="mailto:bwong999@student.ubc.ca"
-            className="text-indigo-600 hover:text-indigo-500 transition-colors"
+            key={label}
+            href={href}
+            {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            className="group rounded-xl border border-ink-700 bg-ink-900/60 p-6 text-left transition-colors hover:border-brand-500"
           >
-            bwong999@student.ubc.ca
+            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-500/10">
+              <Icon className="h-5 w-5 text-brand-400" strokeWidth={1.75} />
+            </div>
+            <h3 className="text-sm font-medium text-ink-400">{label}</h3>
+            <p className="mt-1 text-base font-semibold text-white group-hover:text-brand-300">
+              {value}
+            </p>
           </Link>
-        </div>
-
-        <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-          <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-indigo-50">
-            <Github className="h-5 w-5 text-indigo-600" strokeWidth={1.75} />
-          </div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            GitHub
-          </h3>
-          <Link
-            href="https://github.com/Bwong99"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-indigo-600 hover:text-indigo-500 transition-colors"
-          >
-            @Bwong99
-          </Link>
-        </div>
+        ))}
       </div>
     </div>
   )
