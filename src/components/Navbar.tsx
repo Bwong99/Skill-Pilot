@@ -1,63 +1,68 @@
 'use client'
 
-import Image from "next/image"
 import Link from "next/link"
-import Button from "./Button"
+import { usePathname } from "next/navigation"
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { Menu } from 'lucide-react'
+import Logo from "./Logo"
 
 const NAV_LINKS = [
-  { href: '/welcome', key: 'welcome', label: 'Welcome' },
+  { href: '/welcome', key: 'welcome', label: 'Home' },
   { href: '/explore', key: 'explore', label: 'Explore' },
   { href: '/dashboard', key: 'dashboard', label: 'Dashboard' },
-];
+]
 
 const Navbar = () => {
+  const pathname = usePathname()
+
   return (
-    <nav className="flex justify-between items-center max-w-7xl mx-auto px-6 relative z-30 py-5">
-      <Link href="/welcome">
-        <Image src="/assets/icons/SkillPilotIcon.png" alt="logo" width={74} height={74} />
-      </Link>
+    <nav className="border-b border-slate-200 bg-white">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <Link href="/welcome" aria-label="SkillPilot home">
+          <Logo tone="dark" />
+        </Link>
 
-      <ul className="hidden lg:flex h-full gap-12 items-center">
-        {NAV_LINKS.map((link) => (
-          <Link href={link.href} key={link.key} className="text-2xl font-bold hover:text-indigo-600 transition-colors">
-            {link.label}
-          </Link>
-        ))}
-      </ul>
+        <ul className="hidden items-center gap-8 lg:flex">
+          {NAV_LINKS.map((link) => {
+            const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`)
+            return (
+              <li key={link.key}>
+                <Link
+                  href={link.href}
+                  aria-current={isActive ? 'page' : undefined}
+                  className={`text-sm font-medium transition-colors ${
+                    isActive ? 'text-brand-600' : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
 
-      <div className="hidden lg:flex lg:items-center gap-4">
-        {/* When user is signed out - show login button */}
-        <SignedOut>
-          <Link href="/sign-in">
-            <Button
-              type="button"
-              title="Sign In"
-              variant="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 hover:from-blue-700 hover:to-indigo-700 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold"
+        <div className="hidden items-center gap-4 lg:flex">
+          <SignedOut>
+            <Link
+              href="/sign-in"
+              className="rounded-full bg-brand-500 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-600"
+            >
+              Sign in
+            </Link>
+          </SignedOut>
+
+          <SignedIn>
+            <UserButton
+              appearance={{ elements: { avatarBox: 'h-9 w-9' } }}
+              afterSignOutUrl="/welcome"
             />
-          </Link>
-        </SignedOut>
+          </SignedIn>
+        </div>
 
-        {/* When user is signed in - show user button */}
-        <SignedIn>
-          <UserButton 
-            appearance={{
-              elements: {
-                avatarBox: "h-10 w-10"
-              }
-            }}
-            afterSignOutUrl="/welcome"
-          />
-        </SignedIn>
+        <button type="button" aria-label="Open menu" className="lg:hidden">
+          <Menu className="h-6 w-6 text-slate-700" strokeWidth={1.75} />
+        </button>
       </div>
-
-      <Image 
-        src="/assets/icons/menu.svg"
-        alt="menu"
-        width={24}
-        height={24}
-        className="inline-block cursor-pointer lg:hidden"
-      />
     </nav>
   )
 }
