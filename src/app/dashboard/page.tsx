@@ -160,9 +160,9 @@ export default function DashboardPage() {
 
   if (!isLoaded || loading) {
     return (
-      <div className="min-h-screen bg-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand-500 mx-auto"></div>
           <p className="mt-4 text-blue-600">Loading your dashboard...</p>
         </div>
       </div>
@@ -174,7 +174,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-blue-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Header */}
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -195,13 +195,13 @@ export default function DashboardPage() {
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center">
+                  <div className="w-8 h-8 bg-brand-500 rounded-full flex items-center justify-center">
                     <Route className="h-4 w-4 text-white" strokeWidth={2} />
                   </div>
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-blue-500 truncate">
+                    <dt className="text-sm font-medium text-slate-500 truncate">
                       Learning Paths
                     </dt>
                     <dd className="text-lg font-medium text-slate-800">
@@ -218,13 +218,13 @@ export default function DashboardPage() {
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                  <div className="w-8 h-8 bg-brand-500 rounded-full flex items-center justify-center">
                     <TrendingUp className="h-4 w-4 text-white" strokeWidth={2} />
                   </div>
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-blue-500 truncate">
+                    <dt className="text-sm font-medium text-slate-500 truncate">
                       Overall Progress
                     </dt>
                     <dd className="text-lg font-medium text-slate-800">
@@ -241,13 +241,13 @@ export default function DashboardPage() {
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                  <div className="w-8 h-8 bg-brand-500 rounded-full flex items-center justify-center">
                     <Flag className="h-4 w-4 text-white" strokeWidth={2} />
                   </div>
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-blue-500 truncate">
+                    <dt className="text-sm font-medium text-slate-500 truncate">
                       Milestones
                     </dt>
                     <dd className="text-lg font-medium text-slate-800">
@@ -264,13 +264,13 @@ export default function DashboardPage() {
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                  <div className="w-8 h-8 bg-brand-500 rounded-full flex items-center justify-center">
                     <Flame className="h-4 w-4 text-white" strokeWidth={2} />
                   </div>
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-blue-500 truncate">
+                    <dt className="text-sm font-medium text-slate-500 truncate">
                       Learning Streak
                     </dt>
                     <dd className="text-lg font-medium text-slate-800">
@@ -300,7 +300,7 @@ export default function DashboardPage() {
               </div>
               <button
                 onClick={() => router.push('/dashboard/create-path')}
-                className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
+                className="bg-brand-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-brand-600 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition-colors"
               >
                 + New Path
               </button>
@@ -318,7 +318,7 @@ export default function DashboardPage() {
                   return (
                     <div
                       key={path.id}
-                      className="bg-blue-50 rounded-lg p-6 hover:bg-blue-100 transition-colors cursor-pointer border border-blue-200 hover:border-indigo-300"
+                      className="bg-blue-50 rounded-lg p-6 hover:bg-blue-100 transition-colors cursor-pointer border border-blue-200 hover:border-brand-300"
                       onClick={() => router.push(`/dashboard/paths/${path.id}`)}
                     >
                       <div className="flex items-start justify-between mb-4">
@@ -333,7 +333,7 @@ export default function DashboardPage() {
                         <div className="ml-4 flex items-start space-x-3">
                           {/* Progress Display */}
                           <div className="text-right">
-                            <div className="text-2xl font-bold text-indigo-600">
+                            <div className="text-2xl font-bold text-brand-500">
                               {Math.round(progress)}%
                             </div>
                             <div className="text-xs text-blue-500">
@@ -347,7 +347,7 @@ export default function DashboardPage() {
                               e.stopPropagation()
                               router.push(`/dashboard/paths/${path.id}/edit`)
                             }}
-                            className="p-2 text-blue-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-200"
+                            className="p-2 text-blue-400 hover:text-brand-500 hover:bg-brand-50 rounded-lg transition-all duration-200"
                             title="Edit learning path"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -377,7 +377,7 @@ export default function DashboardPage() {
                       <div className="mb-4">
                         <div className="bg-blue-200 rounded-full h-2">
                           <div 
-                            className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
+                            className="bg-brand-500 h-2 rounded-full transition-all duration-300"
                             style={{ width: `${progress}%` }}
                           />
                         </div>
@@ -417,7 +417,7 @@ export default function DashboardPage() {
                 </p>
                 <button
                   onClick={() => router.push('/dashboard/create-path')}
-                  className="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
+                  className="bg-brand-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-600 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition-colors"
                 >
                   Create a roadmap
                 </button>
