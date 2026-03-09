@@ -14,10 +14,10 @@ export default function MilestoneExplanation({ isOpen, onClose }: MilestoneExpla
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-brand-500 text-white">
           <div>
             <h2 className="text-2xl font-bold">What are Milestones?</h2>
-            <p className="text-indigo-100 mt-1">How your roadmap is put together</p>
+            <p className="text-brand-50 mt-1">How your roadmap is put together</p>
           </div>
           <button
             onClick={onClose}
@@ -32,7 +32,7 @@ export default function MilestoneExplanation({ isOpen, onClose }: MilestoneExpla
         {/* Content */}
         <div className="p-6 space-y-6">
           {/* Overview */}
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-5 border border-blue-200">
+          <div className="bg-slate-50 rounded-lg p-5 border border-blue-200">
             <h3 className="text-lg font-semibold text-blue-900 mb-3 flex items-center">
               What a milestone is
             </h3>
@@ -47,7 +47,7 @@ One milestone is one week of work. It holds the things you read or watch that we
             <div className="grid gap-4">
               <div className="border border-gray-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
-                  <BookOpen className="h-5 w-5 shrink-0 text-indigo-600" strokeWidth={1.75} />
+                  <BookOpen className="h-5 w-5 shrink-0 text-brand-500" strokeWidth={1.75} />
                   <div>
                     <h4 className="font-semibold text-gray-900">Learning Resources</h4>
                     <p className="text-sm text-gray-600 mt-1">
@@ -56,7 +56,7 @@ Videos, articles, docs and courses picked for your level and the time you have.
                     <div className="flex flex-wrap gap-2 mt-2">
                       <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Videos</span>
                       <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Articles</span>
-                      <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">Tutorials</span>
+                      <span className="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded-full">Tutorials</span>
                       <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full">Documentation</span>
                     </div>
                   </div>
@@ -65,7 +65,7 @@ Videos, articles, docs and courses picked for your level and the time you have.
 
               <div className="border border-gray-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
-                  <Dumbbell className="h-5 w-5 shrink-0 text-indigo-600" strokeWidth={1.75} />
+                  <Dumbbell className="h-5 w-5 shrink-0 text-brand-500" strokeWidth={1.75} />
                   <div>
                     <h4 className="font-semibold text-gray-900">Practice Exercises</h4>
                     <p className="text-sm text-gray-600 mt-1">
@@ -82,7 +82,7 @@ Something to build or solve, so the week does not end up being all reading.
 
               <div className="border border-gray-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
-                  <Clock className="h-5 w-5 shrink-0 text-indigo-600" strokeWidth={1.75} />
+                  <Clock className="h-5 w-5 shrink-0 text-brand-500" strokeWidth={1.75} />
                   <div>
                     <h4 className="font-semibold text-gray-900">Hour estimates</h4>
                     <p className="text-sm text-gray-600 mt-1">
@@ -99,7 +99,7 @@ Every week is sized to the hours you said you had, so you can tell in advance if
             <h3 className="text-lg font-semibold text-gray-900 mb-4">How they fit together</h3>
             <div className="space-y-4">
               <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                <div className="w-8 h-8 bg-brand-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
                   1
                 </div>
                 <div>
@@ -110,7 +110,7 @@ Every week is sized to the hours you said you had, so you can tell in advance if
                 </div>
               </div>
               <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                <div className="w-8 h-8 bg-brand-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
                   2
                 </div>
                 <div>
@@ -121,7 +121,7 @@ Every week is sized to the hours you said you had, so you can tell in advance if
                 </div>
               </div>
               <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 bg-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                <div className="w-8 h-8 bg-brand-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
                   3
                 </div>
                 <div>
@@ -135,25 +135,25 @@ Every week is sized to the hours you said you had, so you can tell in advance if
           </div>
 
           {/* Benefits */}
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-5 border border-green-200">
-            <h3 className="text-lg font-semibold text-green-900 mb-3 flex items-center">
+          <div className="bg-slate-50 rounded-lg p-5 border border-slate-200">
+            <h3 className="text-lg font-semibold text-slate-900 mb-3 flex items-center">
               Why it is split up this way
             </h3>
-            <ul className="space-y-2 text-green-800">
+            <ul className="space-y-2 text-slate-700">
               <li className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                <span className="w-1.5 h-1.5 bg-brand-500 rounded-full shrink-0"></span>
                 <span>A week is small enough to actually start on a Monday</span>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                <span className="w-1.5 h-1.5 bg-brand-500 rounded-full shrink-0"></span>
                 <span>Ticking one off gives you a real sense of where you are</span>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                <span className="w-1.5 h-1.5 bg-brand-500 rounded-full shrink-0"></span>
                 <span>Big skills stop looking like one impossible block</span>
               </li>
               <li className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                <span className="w-1.5 h-1.5 bg-brand-500 rounded-full shrink-0"></span>
                 <span>You skip the hour normally spent deciding what to read</span>
               </li>
             </ul>
@@ -196,7 +196,7 @@ That is the whole idea. Pick a week and get started.
             </p>
             <button
               onClick={onClose}
-              className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+              className="bg-brand-500 text-white px-6 py-2 rounded-lg hover:bg-brand-600 transition-colors font-medium"
             >
               Got it, let's learn!
             </button>
