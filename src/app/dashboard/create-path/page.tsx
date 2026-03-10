@@ -30,8 +30,8 @@ export default function CreatePathPage() {
         {/* Features */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center p-6 bg-white rounded-lg shadow-sm">
-            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-indigo-50">
-              <Wand2 className="h-5 w-5 text-indigo-600" strokeWidth={1.75} />
+            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50">
+              <Wand2 className="h-5 w-5 text-brand-500" strokeWidth={1.75} />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Drafted for you</h3>
             <p className="text-gray-600">
@@ -39,8 +39,8 @@ export default function CreatePathPage() {
             </p>
           </div>
           <div className="text-center p-6 bg-white rounded-lg shadow-sm">
-            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-indigo-50">
-              <CalendarClock className="h-5 w-5 text-indigo-600" strokeWidth={1.75} />
+            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50">
+              <CalendarClock className="h-5 w-5 text-brand-500" strokeWidth={1.75} />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Sized to your week</h3>
             <p className="text-gray-600">
@@ -48,8 +48,8 @@ export default function CreatePathPage() {
             </p>
           </div>
           <div className="text-center p-6 bg-white rounded-lg shadow-sm">
-            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-indigo-50">
-              <ListChecks className="h-5 w-5 text-indigo-600" strokeWidth={1.75} />
+            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-brand-50">
+              <ListChecks className="h-5 w-5 text-brand-500" strokeWidth={1.75} />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Progress you can see</h3>
             <p className="text-gray-600">

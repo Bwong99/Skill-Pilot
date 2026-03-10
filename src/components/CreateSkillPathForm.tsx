@@ -264,7 +264,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
             id="skillName"
             type="text"
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
             placeholder="e.g., Python Programming, Guitar, Spanish"
             value={formData.skillName}
             onChange={(e) => setFormData({ ...formData, skillName: e.target.value })}
@@ -278,7 +278,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
           </label>
           <select
             id="category"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
           >
@@ -298,7 +298,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
             <input
               id="customCategory"
               type="text"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
               placeholder="Enter your custom category"
               value={formData.customCategory}
               onChange={(e) => setFormData({ ...formData, customCategory: e.target.value })}
@@ -316,7 +316,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
             type="number"
             min="1"
             max="52"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
             value={formData.targetWeeks}
             onChange={(e) => setFormData({ ...formData, targetWeeks: parseInt(e.target.value) || 8 })}
           />
@@ -335,7 +335,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
             id="hoursPerWeek"
             value={formData.hoursPerWeek}
             onChange={(e) => setFormData({ ...formData, hoursPerWeek: parseInt(e.target.value) })}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent"
           >
             <option value={2}>2 hours/week</option>
             <option value={3}>3 hours/week</option>
@@ -365,7 +365,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
                   value={level.value}
                   checked={formData.difficultyLevel === level.value}
                   onChange={(e) => setFormData({ ...formData, difficultyLevel: e.target.value as any })}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                  className="h-4 w-4 text-brand-500 focus:ring-brand-500 border-gray-300"
                 />
                 <span className="ml-2 text-sm text-gray-700">{level.label}</span>
               </label>
@@ -381,7 +381,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
           <textarea
             id="description"
             rows={3}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
             placeholder="What do you hope to achieve with this skill?"
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -389,7 +389,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
         </div>
 
         {/* AI Feature Highlight */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <div className="bg-brand-50 border border-brand-200 rounded-lg p-4 mb-6">
           <div className="flex items-center mb-2">
             <span className="text-2xl mr-2">�</span>
             <h3 className="text-lg font-semibold text-blue-900">Gemini AI-Powered Learning Path</h3>
@@ -418,7 +418,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center"
+          className="w-full bg-brand-500 text-white py-4 px-6 rounded-lg font-medium hover:bg-brand-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center"
         >
           {loading ? (
             <>
