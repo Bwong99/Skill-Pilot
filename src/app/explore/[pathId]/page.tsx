@@ -167,7 +167,7 @@ export default function ExploreRoadmapDetailPage() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand-500 mx-auto"></div>
           <p className="mt-4 text-slate-600">Loading roadmap details...</p>
         </div>
       </div>
@@ -182,7 +182,7 @@ export default function ExploreRoadmapDetailPage() {
           <p className="text-slate-600 mb-4">{error || 'The requested roadmap could not be found'}</p>
           <button
             onClick={() => router.push('/explore')}
-            className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700"
+            className="bg-brand-500 text-white px-6 py-3 rounded-lg hover:bg-brand-600"
           >
             Back to Explore
           </button>
@@ -198,7 +198,7 @@ export default function ExploreRoadmapDetailPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <button
             onClick={() => router.push('/explore')}
-            className="text-indigo-600 hover:text-indigo-500 mb-4 flex items-center font-medium"
+            className="text-brand-500 hover:text-brand-500 mb-4 flex items-center font-medium"
           >
             ← Back to Explore
           </button>
@@ -256,7 +256,7 @@ export default function ExploreRoadmapDetailPage() {
               <button
                 onClick={prevWeek}
                 disabled={currentWeek === 0 || isAnimating}
-                className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-indigo-100 text-indigo-700 hover:bg-indigo-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition-all duration-200"
+                className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-brand-50 text-brand-600 hover:bg-brand-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition-all duration-200"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -273,7 +273,7 @@ export default function ExploreRoadmapDetailPage() {
                     disabled={isAnimating}
                     className={`w-3 h-3 rounded-full transition-all duration-200 ${
                       index === currentWeek
-                        ? 'bg-indigo-600 scale-125'
+                        ? 'bg-brand-500 scale-125'
                         : 'bg-gray-300 hover:bg-gray-400'
                     }`}
                   />
@@ -283,7 +283,7 @@ export default function ExploreRoadmapDetailPage() {
               <button
                 onClick={nextWeek}
                 disabled={currentWeek === milestones.length - 1 || isAnimating}
-                className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-indigo-100 text-indigo-700 hover:bg-indigo-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition-all duration-200"
+                className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-brand-50 text-brand-600 hover:bg-brand-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition-all duration-200"
               >
                 <span>Next Week</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -298,11 +298,11 @@ export default function ExploreRoadmapDetailPage() {
                 isAnimating ? 'translate-x-4 opacity-30 scale-98' : 'translate-x-0 opacity-100 scale-100'
               }`}>
                 {milestones[currentWeek] && (
-                  <div className="rounded-lg shadow-xl border-2 p-8 border-indigo-200 bg-white">
+                  <div className="rounded-lg shadow-xl border-2 p-8 border-brand-200 bg-white">
                     <div className="flex items-start justify-between mb-6">
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-3">
-                          <div className="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center text-lg font-bold">
+                          <div className="w-12 h-12 rounded-full bg-brand-500 text-white flex items-center justify-center text-lg font-bold">
                             {currentWeek + 1}
                           </div>
                           <div>
@@ -328,9 +328,9 @@ export default function ExploreRoadmapDetailPage() {
                         </h4>
                         <div className="grid gap-4 md:grid-cols-2">
                           {milestones[currentWeek].resources.map((resource, resourceIndex) => (
-                            <div key={resourceIndex} className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                            <div key={resourceIndex} className="bg-slate-50 border border-blue-200 rounded-xl p-4 hover:shadow-md transition-shadow">
                               <div className="flex items-start space-x-3">
-                                <span className="flex-shrink-0 text-indigo-600">
+                                <span className="flex-shrink-0 text-brand-500">
                                   <ResourceIcon type={resource.type} />
                                 </span>
                                 <div className="flex-1">
@@ -379,9 +379,9 @@ export default function ExploreRoadmapDetailPage() {
                         </h4>
                         <div className="grid gap-3">
                           {milestones[currentWeek].exercises.map((exercise, exerciseIndex) => (
-                            <div key={exerciseIndex} className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg p-4 border border-purple-200">
+                            <div key={exerciseIndex} className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                               <div className="flex items-center justify-between mb-2">
-                                <span className="font-medium text-indigo-900 flex items-center space-x-2">
+                                <span className="font-medium text-brand-700 flex items-center space-x-2">
                                   <ExerciseIcon type={exercise.type} />
                                   <span>{exercise.title}</span>
                                 </span>
@@ -400,7 +400,7 @@ export default function ExploreRoadmapDetailPage() {
                                   </span>
                                 </div>
                               </div>
-                              <p className="text-sm text-indigo-700 leading-relaxed">{exercise.description}</p>
+                              <p className="text-sm text-brand-600 leading-relaxed">{exercise.description}</p>
                             </div>
                           ))}
                         </div>
@@ -422,8 +422,8 @@ export default function ExploreRoadmapDetailPage() {
                     disabled={isAnimating}
                     className={`p-2 rounded-lg text-xs font-medium transition-all duration-200 ${
                       index === currentWeek
-                        ? 'bg-indigo-600 text-white shadow-md'
-                        : 'bg-white text-slate-700 hover:bg-indigo-50 hover:text-indigo-600'
+                        ? 'bg-brand-500 text-white shadow-md'
+                        : 'bg-white text-slate-700 hover:bg-brand-50 hover:text-brand-500'
                     }`}
                   >
                     Week {index + 1}
@@ -441,14 +441,14 @@ export default function ExploreRoadmapDetailPage() {
         )}
 
         {/* Clone CTA */}
-        <div className="mt-12 text-center bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-8 text-white">
+        <div className="mt-12 text-center bg-brand-500 rounded-xl p-8 text-white">
           <h3 className="text-2xl font-bold mb-4">Want a version of this for yourself?</h3>
-          <p className="text-indigo-100 mb-6 max-w-2xl mx-auto">
+          <p className="text-brand-50 mb-6 max-w-2xl mx-auto">
             Clone this roadmap to your dashboard to track progress, mark milestones as complete, and make it your own!
           </p>
           <button
             onClick={handleCloneRoadmap}
-            className="bg-white text-indigo-600 px-8 py-3 rounded-lg hover:bg-indigo-50 transition-colors font-semibold text-lg"
+            className="bg-white text-brand-500 px-8 py-3 rounded-lg hover:bg-brand-50 transition-colors font-semibold text-lg"
           >
             🔗 Clone This Roadmap
           </button>

@@ -125,9 +125,9 @@ export default function ExplorePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-indigo-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-brand-500 mx-auto"></div>
           <p className="mt-6 text-slate-600 text-lg">Loading roadmaps...</p>
         </div>
       </div>
@@ -135,12 +135,12 @@ export default function ExplorePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-indigo-100">
+      <header className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-brand-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-8 text-center">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
+            <h1 className="text-4xl font-bold bg-brand-500 bg-clip-text text-transparent mb-4">
               Explore Learning Roadmaps
             </h1>
           </div>
@@ -149,7 +149,7 @@ export default function ExplorePage() {
 
       {/* Filters */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg border border-indigo-100 p-6 mb-8">
+        <div className="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg border border-brand-50 p-6 mb-8">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             {/* Search */}
             <div className="flex-1 max-w-md">
@@ -158,7 +158,7 @@ export default function ExplorePage() {
                 placeholder="Search roadmaps..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-3 border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/80 backdrop-blur-sm"
+                className="w-full px-4 py-3 border border-brand-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent bg-white/80 backdrop-blur-sm"
               />
             </div>
             
@@ -168,7 +168,7 @@ export default function ExplorePage() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/80 backdrop-blur-sm"
+                className="px-4 py-3 border border-brand-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent bg-white/80 backdrop-blur-sm"
               >
                 {categories.map(category => (
                   <option key={category} value={category}>{category}</option>
@@ -181,7 +181,7 @@ export default function ExplorePage() {
         {/* Results Count */}
         <div className="mb-6">
           <p className="text-slate-600">
-            Found <span className="font-semibold text-indigo-600">{filteredPaths.length}</span> roadmaps
+            Found <span className="font-semibold text-brand-500">{filteredPaths.length}</span> roadmaps
             {selectedCategory !== 'All' && ` in ${selectedCategory}`}
           </p>
         </div>
@@ -192,7 +192,7 @@ export default function ExplorePage() {
             <p className="text-red-600 text-lg mb-4">{error}</p>
             <button
               onClick={() => loadPublicPaths()}
-              className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors"
+              className="bg-brand-500 text-white px-6 py-3 rounded-lg hover:bg-brand-600 transition-colors"
             >
               Try Again
             </button>
@@ -205,20 +205,20 @@ export default function ExplorePage() {
             {filteredPaths.map((path) => (
               <div
                 key={path.id}
-                className="group bg-white/70 backdrop-blur-sm rounded-xl p-6 hover:bg-white/90 transition-all duration-300 cursor-pointer border border-indigo-100 hover:border-indigo-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="group bg-white/70 backdrop-blur-sm rounded-xl p-6 hover:bg-white/90 transition-all duration-300 cursor-pointer border border-brand-50 hover:border-brand-300 shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 <div className="mb-4">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-indigo-900 transition-colors line-clamp-2">
+                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-brand-700 transition-colors line-clamp-2">
                       {path.title}
                     </h3>
-                    <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full font-medium ml-2 flex-shrink-0">
+                    <span className="text-xs bg-brand-50 text-brand-600 px-2 py-1 rounded-full font-medium ml-2 flex-shrink-0">
                       {path.skill?.category}
                     </span>
                   </div>
                   
                   <p className="text-sm text-slate-600 mb-3">
-                    <span className="font-medium text-indigo-600">{path.skill?.name}</span>
+                    <span className="font-medium text-brand-500">{path.skill?.name}</span>
                     {' • '}
                     <span className="text-slate-500">
                       {path.target_duration_weeks} weeks • {path.hours_per_week || 5} hrs/week • {path.difficulty_level}
@@ -243,7 +243,7 @@ export default function ExplorePage() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => router.push(`/explore/${path.id}`)}
-                    className="flex-1 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg hover:bg-indigo-200 transition-colors font-medium"
+                    className="flex-1 bg-brand-50 text-brand-600 px-4 py-2 rounded-lg hover:bg-brand-200 transition-colors font-medium"
                   >
                     View Details
                   </button>
@@ -278,7 +278,7 @@ export default function ExplorePage() {
             {user && (
               <button
                 onClick={() => router.push('/dashboard/create-path')}
-                className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+                className="bg-brand-500 text-white px-6 py-3 rounded-lg hover:bg-brand-600 transition-colors font-medium"
               >
                 Create a Roadmap
               </button>
