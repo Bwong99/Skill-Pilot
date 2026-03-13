@@ -69,10 +69,10 @@ export default function SkillTreeView({ milestones, onToggleComplete, onClose }:
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-7xl max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-brand-500 text-white">
           <div>
             <h2 className="text-2xl font-bold">Learning Skill Tree</h2>
-            <p className="text-indigo-100 mt-1">Your weeks, laid out end to end</p>
+            <p className="text-brand-50 mt-1">Your weeks, laid out end to end</p>
           </div>
           <button
             onClick={onClose}
@@ -94,8 +94,8 @@ export default function SkillTreeView({ milestones, onToggleComplete, onClose }:
                   <div key={phaseIndex} className="relative">
                     {/* Phase Title */}
                     <div className="text-center mb-6">
-                      <div className="inline-flex items-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-full text-lg font-semibold shadow-lg">
-                        <span className="mr-2 text-sm font-normal text-indigo-100">
+                      <div className="inline-flex items-center bg-brand-500 text-white px-6 py-2 rounded-full text-lg font-semibold shadow-lg">
+                        <span className="mr-2 text-sm font-normal text-brand-50">
                           Phase {phaseIndex + 1}
                         </span>
                         {getPhaseTitle(phaseIndex)}

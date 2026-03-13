@@ -271,7 +271,7 @@ export default function EditSkillPathPage() {
     return (
       <div className="min-h-screen bg-blue-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand-500 mx-auto"></div>
           <p className="mt-4 text-blue-600">Loading skill path...</p>
         </div>
       </div>
@@ -286,7 +286,7 @@ export default function EditSkillPathPage() {
           <p className="text-blue-600 mb-4">{error || 'Skill path not found'}</p>
           <button
             onClick={() => router.push('/dashboard')}
-            className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700"
+            className="bg-brand-500 text-white px-6 py-3 rounded-lg hover:bg-brand-600"
           >
             Back to Dashboard
           </button>
@@ -302,7 +302,7 @@ export default function EditSkillPathPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <button
             onClick={() => router.push(`/dashboard/paths/${skillPath.id}`)}
-            className="text-indigo-600 hover:text-indigo-500 mb-4 flex items-center font-medium"
+            className="text-brand-500 hover:text-brand-500 mb-4 flex items-center font-medium"
           >
             ← Back to Learning Path
           </button>
@@ -335,7 +335,7 @@ export default function EditSkillPathPage() {
                   id="title"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                   placeholder="Enter a title for your learning path"
                   required
                 />
@@ -351,7 +351,7 @@ export default function EditSkillPathPage() {
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={4}
-                  className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                   placeholder="Describe what you want to learn and your goals"
                 />
               </div>
@@ -366,7 +366,7 @@ export default function EditSkillPathPage() {
                   id="skillName"
                   value={formData.skillName}
                   onChange={(e) => setFormData({ ...formData, skillName: e.target.value })}
-                  className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                   placeholder="e.g., React, Python, Digital Marketing"
                   required
                 />
@@ -382,7 +382,7 @@ export default function EditSkillPathPage() {
                     id="category"
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                     required
                   >
                     <option value="">Select a category</option>
@@ -406,7 +406,7 @@ export default function EditSkillPathPage() {
                     max="52"
                     value={formData.targetWeeks}
                     onChange={(e) => setFormData({ ...formData, targetWeeks: parseInt(e.target.value) || 8 })}
-                    className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                   />
                 </div>
 
@@ -419,7 +419,7 @@ export default function EditSkillPathPage() {
                     id="hoursPerWeek"
                     value={formData.hoursPerWeek}
                     onChange={(e) => setFormData({ ...formData, hoursPerWeek: parseInt(e.target.value) })}
-                    className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                   >
                     <option value={2}>2 hours/week</option>
                     <option value={3}>3 hours/week</option>
@@ -447,7 +447,7 @@ export default function EditSkillPathPage() {
                     id="customCategory"
                     value={formData.customCategory}
                     onChange={(e) => setFormData({ ...formData, customCategory: e.target.value })}
-                    className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                     placeholder="Enter your custom category"
                     required
                   />
@@ -468,7 +468,7 @@ export default function EditSkillPathPage() {
                         value={level.value}
                         checked={formData.difficultyLevel === level.value}
                         onChange={(e) => setFormData({ ...formData, difficultyLevel: e.target.value as any })}
-                        className="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-blue-300"
+                        className="w-4 h-4 text-brand-500 focus:ring-brand-500 border-blue-300"
                       />
                       <span className="ml-3 text-sm text-slate-700">{level.label}</span>
                     </label>
@@ -489,7 +489,7 @@ export default function EditSkillPathPage() {
                 <button
                   type="submit"
                   disabled={saving || regenerating}
-                  className="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                  className="px-8 py-3 bg-brand-500 text-white rounded-lg hover:bg-brand-600 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                 >
                   {(saving || regenerating) && (
                     <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
