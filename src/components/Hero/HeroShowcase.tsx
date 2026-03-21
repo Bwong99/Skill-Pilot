@@ -142,11 +142,11 @@ const HeroShowcase = () => {
   const [tab, setTab] = useState<TabKey>('timeline')
 
   return (
-    <div className="w-full rounded-2xl border border-ink-700 bg-ink-900/80 p-5 shadow-2xl shadow-brand-700/10 backdrop-blur sm:p-6">
+    <div className="w-full rounded-xl border border-ink-700 bg-ink-900/70 p-5 backdrop-blur sm:p-6">
       <div
         role="tablist"
         aria-label="Roadmap views"
-        className="mb-6 inline-flex rounded-lg border border-ink-700 bg-ink-850 p-1"
+        className="mb-6 inline-flex rounded-md border border-ink-700 bg-ink-850 p-1"
       >
         {TABS.map(({ key, label, Icon }) => (
           <button
@@ -154,7 +154,7 @@ const HeroShowcase = () => {
             role="tab"
             aria-selected={tab === key}
             onClick={() => setTab(key)}
-            className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+            className={`inline-flex items-center gap-1.5 rounded px-3 py-1.5 text-xs font-medium transition-colors ${
               tab === key
                 ? 'bg-brand-500 text-white'
                 : 'text-ink-300 hover:text-white'
