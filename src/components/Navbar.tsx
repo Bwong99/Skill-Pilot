@@ -45,7 +45,7 @@ const Navbar = () => {
           <SignedOut>
             <Link
               href="/sign-in"
-              className="rounded-full bg-brand-500 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-600"
+              className="inline-flex h-9 items-center rounded-md bg-brand-500 px-4 text-sm font-medium text-white transition-colors hover:bg-brand-600"
             >
               Sign in
             </Link>
