@@ -127,7 +127,7 @@ export default function ExplorePage() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-4 border-brand-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-slate-200 border-t-brand-500 mx-auto"></div>
           <p className="mt-6 text-slate-600 text-lg">Loading roadmaps...</p>
         </div>
       </div>
@@ -192,7 +192,7 @@ export default function ExplorePage() {
             <p className="text-red-600 text-lg mb-4">{error}</p>
             <button
               onClick={() => loadPublicPaths()}
-              className="bg-brand-500 text-white px-6 py-3 rounded-lg hover:bg-brand-600 transition-colors"
+              className="inline-flex h-11 items-center justify-center rounded-md bg-brand-500 px-5 text-sm font-medium text-white transition-colors hover:bg-brand-600 transition-colors"
             >
               Try Again
             </button>
@@ -205,7 +205,7 @@ export default function ExplorePage() {
             {filteredPaths.map((path) => (
               <div
                 key={path.id}
-                className="group bg-white/70 backdrop-blur-sm rounded-xl p-6 hover:bg-white/90 transition-all duration-300 cursor-pointer border border-brand-50 hover:border-brand-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="group bg-white rounded-lg p-6 hover:bg-slate-50 transition-colors cursor-pointer border border-slate-200 hover:border-brand-300"
               >
                 <div className="mb-4">
                   <div className="flex items-start justify-between mb-2">
@@ -243,7 +243,7 @@ export default function ExplorePage() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => router.push(`/explore/${path.id}`)}
-                    className="flex-1 bg-brand-50 text-brand-600 px-4 py-2 rounded-lg hover:bg-brand-200 transition-colors font-medium"
+                    className="inline-flex h-9 flex-1 items-center justify-center rounded-md border border-slate-300 bg-white px-3.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
                   >
                     View Details
                   </button>
@@ -252,7 +252,7 @@ export default function ExplorePage() {
                       e.stopPropagation()
                       handleCloneRoadmap(path.id)
                     }}
-                    className="bg-emerald-500 text-white px-4 py-2 rounded-lg hover:bg-emerald-600 transition-colors font-medium"
+                    className="inline-flex h-9 items-center justify-center rounded-md bg-brand-500 px-3.5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
                   >
                     Clone
                   </button>
@@ -278,7 +278,7 @@ export default function ExplorePage() {
             {user && (
               <button
                 onClick={() => router.push('/dashboard/create-path')}
-                className="bg-brand-500 text-white px-6 py-3 rounded-lg hover:bg-brand-600 transition-colors font-medium"
+                className="inline-flex h-11 items-center justify-center rounded-md bg-brand-500 px-5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
               >
                 Create a Roadmap
               </button>

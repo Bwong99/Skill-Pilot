@@ -167,7 +167,7 @@ export default function ExploreRoadmapDetailPage() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-slate-200 border-t-brand-500 mx-auto"></div>
           <p className="mt-4 text-slate-600">Loading roadmap details...</p>
         </div>
       </div>
@@ -182,7 +182,7 @@ export default function ExploreRoadmapDetailPage() {
           <p className="text-slate-600 mb-4">{error || 'The requested roadmap could not be found'}</p>
           <button
             onClick={() => router.push('/explore')}
-            className="bg-brand-500 text-white px-6 py-3 rounded-lg hover:bg-brand-600"
+            className="inline-flex h-11 items-center justify-center rounded-md bg-brand-500 px-5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
           >
             Back to Explore
           </button>
@@ -225,7 +225,7 @@ export default function ExploreRoadmapDetailPage() {
             <div className="ml-6">
               <button
                 onClick={handleCloneRoadmap}
-                className="bg-emerald-500 text-white px-6 py-3 rounded-lg hover:bg-emerald-600 transition-colors font-medium flex items-center space-x-2"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-brand-500 px-5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
               >
                 <span>🔗</span>
                 <span>Clone Roadmap</span>
@@ -256,7 +256,7 @@ export default function ExploreRoadmapDetailPage() {
               <button
                 onClick={prevWeek}
                 disabled={currentWeek === 0 || isAnimating}
-                className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-brand-50 text-brand-600 hover:bg-brand-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition-all duration-200"
+                className="inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50 disabled:pointer-events-none"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -283,7 +283,7 @@ export default function ExploreRoadmapDetailPage() {
               <button
                 onClick={nextWeek}
                 disabled={currentWeek === milestones.length - 1 || isAnimating}
-                className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-brand-50 text-brand-600 hover:bg-brand-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition-all duration-200"
+                className="inline-flex h-9 items-center gap-2 rounded-md border border-slate-300 bg-white px-3.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50 disabled:pointer-events-none"
               >
                 <span>Next Week</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -298,7 +298,7 @@ export default function ExploreRoadmapDetailPage() {
                 isAnimating ? 'translate-x-4 opacity-30 scale-98' : 'translate-x-0 opacity-100 scale-100'
               }`}>
                 {milestones[currentWeek] && (
-                  <div className="rounded-lg shadow-xl border-2 p-8 border-brand-200 bg-white">
+                  <div className="rounded-lg border border-slate-200 p-8 bg-white">
                     <div className="flex items-start justify-between mb-6">
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-3">
