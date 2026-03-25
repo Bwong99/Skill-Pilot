@@ -271,7 +271,7 @@ export default function EditSkillPathPage() {
     return (
       <div className="min-h-screen bg-blue-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-slate-200 border-t-brand-500 mx-auto"></div>
           <p className="mt-4 text-blue-600">Loading skill path...</p>
         </div>
       </div>
@@ -286,7 +286,7 @@ export default function EditSkillPathPage() {
           <p className="text-blue-600 mb-4">{error || 'Skill path not found'}</p>
           <button
             onClick={() => router.push('/dashboard')}
-            className="bg-brand-500 text-white px-6 py-3 rounded-lg hover:bg-brand-600"
+            className="inline-flex h-11 items-center justify-center rounded-md bg-brand-500 px-5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
           >
             Back to Dashboard
           </button>
@@ -489,7 +489,7 @@ export default function EditSkillPathPage() {
                 <button
                   type="submit"
                   disabled={saving || regenerating}
-                  className="px-8 py-3 bg-brand-500 text-white rounded-lg hover:bg-brand-600 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                  className="inline-flex h-11 items-center justify-center rounded-md bg-brand-500 px-5 text-sm font-medium text-white transition-colors hover:bg-brand-600 disabled:opacity-50 disabled:pointer-events-none"
                 >
                   {(saving || regenerating) && (
                     <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">

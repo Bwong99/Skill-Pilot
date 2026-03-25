@@ -162,7 +162,7 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-slate-200 border-t-brand-500 mx-auto"></div>
           <p className="mt-4 text-blue-600">Loading your dashboard...</p>
         </div>
       </div>
@@ -300,7 +300,7 @@ export default function DashboardPage() {
               </div>
               <button
                 onClick={() => router.push('/dashboard/create-path')}
-                className="bg-brand-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-brand-600 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition-colors"
+                className="inline-flex h-9 items-center justify-center rounded-md bg-brand-500 px-3.5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
               >
                 + New Path
               </button>
@@ -417,7 +417,7 @@ export default function DashboardPage() {
                 </p>
                 <button
                   onClick={() => router.push('/dashboard/create-path')}
-                  className="bg-brand-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-600 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition-colors"
+                  className="inline-flex h-11 items-center justify-center rounded-md bg-brand-500 px-5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
                 >
                   Create a roadmap
                 </button>

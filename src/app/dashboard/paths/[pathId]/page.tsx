@@ -171,7 +171,7 @@ export default function SkillPathPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-slate-200 border-t-brand-500 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading your learning path...</p>
         </div>
       </div>
@@ -186,7 +186,7 @@ export default function SkillPathPage() {
           <p className="text-gray-600 mb-4">{error || 'Skill path not found'}</p>
           <button
             onClick={() => router.push('/dashboard')}
-            className="bg-brand-500 text-white px-6 py-3 rounded-lg hover:bg-brand-600"
+            className="inline-flex h-11 items-center justify-center rounded-md bg-brand-500 px-5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
           >
             Back to Dashboard
           </button>
@@ -265,14 +265,14 @@ export default function SkillPathPage() {
           <div className="flex items-center space-x-3">
             <button
               onClick={() => setShowMilestoneExplanation(true)}
-              className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200 transition-colors font-medium flex items-center space-x-2"
+              className="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
             >
               <Info className="h-4 w-4" strokeWidth={1.75} />
               <span>What are Milestones?</span>
             </button>
             <button
               onClick={() => setShowSkillTree(true)}
-              className="bg-brand-500 text-white px-4 py-2 rounded-lg hover:bg-brand-600 transition-colors font-medium flex items-center space-x-2"
+              className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-brand-500 px-3.5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
             >
               <Network className="h-4 w-4" strokeWidth={1.75} />
               <span>View Skill Tree</span>
@@ -284,10 +284,10 @@ export default function SkillPathPage() {
           {milestones.map((milestone, index) => (
             <div 
               key={milestone.id}
-              className={`rounded-lg shadow-lg border-2 p-6 transition-all duration-200 ${
+              className={`rounded-lg border p-6 transition-all duration-200 ${
                 milestone.completed 
-                  ? 'border-emerald-400 bg-emerald-50 shadow-emerald-100' 
-                  : 'border-slate-300 bg-white shadow-slate-200 hover:border-brand-400 hover:shadow-brand-50'
+                  ? 'border-emerald-400 bg-emerald-50 ' 
+                  : 'border-slate-300 bg-white hover:border-brand-400'
               }`}
             >
               <div className="flex items-start justify-between">
