@@ -418,7 +418,7 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-brand-500 text-white py-4 px-6 rounded-lg font-medium hover:bg-brand-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center"
+          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand-500 px-5 text-sm font-medium text-white transition-colors hover:bg-brand-600 disabled:opacity-50 disabled:pointer-events-none"
         >
           {loading ? (
             <>

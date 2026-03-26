@@ -12,7 +12,7 @@ export default function MilestoneExplanation({ isOpen, onClose }: MilestoneExpla
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-brand-500 text-white">
           <div>
@@ -196,7 +196,7 @@ That is the whole idea. Pick a week and get started.
             </p>
             <button
               onClick={onClose}
-              className="bg-brand-500 text-white px-6 py-2 rounded-lg hover:bg-brand-600 transition-colors font-medium"
+              className="inline-flex h-11 items-center justify-center rounded-md bg-brand-500 px-5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
             >
               Got it, let's learn!
             </button>
