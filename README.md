@@ -33,10 +33,14 @@ The idea came from a simple problem: most roadmaps you find online assume you ha
 
 ```bash
 npm install
+cp .env.example .env.local   # then fill in your keys
 npm run dev
 ```
 
-You will need a `.env.local` with Clerk, Supabase and Gemini keys. Without them the app builds but cannot render authenticated pages.
+The keys are not optional. `/welcome` renders without them, but `/explore` and
+`/dashboard` return a 500 because the Supabase client is created at import time
+and throws when its URL and key are missing. `next build` fails for the same
+reason on the Clerk key. See `.env.example` for where each one comes from.
 
 ## Planned
 
