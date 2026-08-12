@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Sparkles } from 'lucide-react'
+import { MISSING_KEY_MESSAGE, getUserApiKey } from '@/lib/user-api-key'
 
 type CreateSkillPathFormProps = {
   onSuccess?: (skillPathId: string) => void
@@ -47,6 +48,13 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!user) return
+
+    // Checked up front: the skill path row is created before generation runs,
+    // so a missing key here would leave a path behind with no roadmap.
+    if (!getUserApiKey()) {
+      setError(MISSING_KEY_MESSAGE)
+      return
+    }
 
     setLoading(true)
     setError('')
@@ -138,7 +146,14 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
 
   const generateAIRoadmap = async (skillPathId: string, formData: any) => {
     console.log('Generating AI-powered roadmap for skill path:', skillPathId)
-    
+
+    // The generation runs on this user's own Gemini key, never a server-owned
+    // one, so bail before the round trip if they haven't saved one yet.
+    const apiKey = getUserApiKey()
+    if (!apiKey) {
+      throw new Error(MISSING_KEY_MESSAGE)
+    }
+
     try {
       // Call the AI generation API
       const response = await fetch('/api/generate-path', {
@@ -151,7 +166,8 @@ export default function CreateSkillPathForm({ onSuccess }: CreateSkillPathFormPr
           duration: formData.targetWeeks,
           difficulty: formData.difficultyLevel.charAt(0).toUpperCase() + formData.difficultyLevel.slice(1),
           hoursPerWeek: formData.hoursPerWeek || 5,
-          userContext: formData.description
+          userContext: formData.description,
+          apiKey
         })
       })
 

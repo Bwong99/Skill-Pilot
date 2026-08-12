@@ -1,7 +1,42 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
-// Initialize Google AI client
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!)
+// There is deliberately no shared client here. Every caller supplies the API
+// key belonging to the user making the request, and we build a client for that
+// request only. Never fall back to a server-owned key: that would bill the
+// app owner's Google AI Studio account for public traffic.
+function clientFor(apiKey: string): GoogleGenerativeAI {
+  if (!apiKey?.trim()) {
+    throw new ApiKeyError('A Gemini API key is required to generate content.')
+  }
+  return new GoogleGenerativeAI(apiKey.trim())
+}
+
+// Raised when the failure is the caller's key, not the model. These must never
+// be swallowed into the fallback roadmap: a user whose key is wrong has to be
+// told so, otherwise they get placeholder content and believe it came from AI.
+export class ApiKeyError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'ApiKeyError'
+  }
+}
+
+// The SDK surfaces auth failures as text, e.g. "[400 Bad Request] API key not
+// valid. Please pass a valid API key." or a 403 PERMISSION_DENIED. Match on
+// that rather than echoing the provider string, which can carry request detail.
+function isKeyRejection(error: unknown): boolean {
+  if (error instanceof ApiKeyError) return true
+  if (!(error instanceof Error)) return false
+  const message = error.message.toLowerCase()
+  return (
+    message.includes('api key not valid') ||
+    message.includes('api_key_invalid') ||
+    message.includes('invalid api key') ||
+    message.includes('permission_denied') ||
+    message.includes('403') ||
+    message.includes('401')
+  )
+}
 
 export interface LearningMilestone {
   title: string
@@ -39,23 +74,22 @@ export async function generateLearningPath({
   duration,
   difficulty,
   hoursPerWeek = 5,
-  userContext = ''
+  userContext = '',
+  apiKey
 }: {
   skillName: string
   duration: number
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced'
   hoursPerWeek?: number
   userContext?: string
+  apiKey: string
 }): Promise<SkillPathGeneration> {
   try {
     console.log('Starting roadmap generation with Gemini 2.5 Flash-Lite')
     console.log(`Parameters: ${skillName}, ${duration} weeks, ${difficulty}`)
     
-    // Check if API key is configured
-    if (!process.env.GOOGLE_AI_API_KEY) {
-      throw new Error('GOOGLE_AI_API_KEY environment variable is not configured')
-    }
-    
+    const genAI = clientFor(apiKey)
+
     const prompt = `Create a comprehensive ${duration}-week learning roadmap for mastering ${skillName} at ${difficulty} level.
 
 ${userContext ? `Additional context: ${userContext}` : ''}
@@ -193,15 +227,14 @@ Format as JSON with this enhanced structure:
 
   } catch (error) {
     console.error('❌ Error generating learning path with Gemini:', error)
-    
-    // Log more details about the error
-    if (error instanceof Error) {
-      console.error('Error name:', error.name)
-      console.error('Error message:', error.message)
-      console.error('Error stack:', error.stack)
+
+    // A rejected key is the user's problem to fix, so it has to reach them.
+    // Falling back here would hand them a placeholder roadmap that looks real.
+    if (isKeyRejection(error)) {
+      throw new ApiKeyError('Gemini rejected the supplied API key.')
     }
-    
-    // Fallback to a basic structure if AI fails
+
+    // Anything else (model hiccup, malformed JSON) still degrades gracefully.
     console.log('🔄 Falling back to manual roadmap generation...')
     return generateFallbackPath(skillName, duration, difficulty, hoursPerWeek)
   }
@@ -254,9 +287,9 @@ function generateFallbackPath(skillName: string, duration: number, difficulty: s
   }
 }
 
-export async function generatePersonalizedSuggestions(skillName: string): Promise<string[]> {
+export async function generatePersonalizedSuggestions(skillName: string, apiKey: string): Promise<string[]> {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' })
+    const model = clientFor(apiKey).getGenerativeModel({ model: 'gemini-2.5-flash-lite' })
     
     const result = await model.generateContent(
       `Generate 5 brief, compelling reasons why learning ${skillName} is valuable in 2025. Each reason should be one sentence.`

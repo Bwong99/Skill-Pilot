@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { MISSING_KEY_MESSAGE, getUserApiKey } from '@/lib/user-api-key'
 
 type SkillPath = {
   id: string
@@ -155,9 +156,16 @@ export default function EditSkillPathPage() {
   const regenerateRoadmap = async () => {
     if (!skillPath) return
 
+    // Checked before the delete below: without a key the generation cannot run,
+    // and clearing the milestones first would destroy the existing roadmap.
+    const apiKey = getUserApiKey()
+    if (!apiKey) {
+      throw new Error(MISSING_KEY_MESSAGE)
+    }
+
     try {
       console.log('Regenerating roadmap with new time allocation...')
-      
+
       // Delete existing milestones
       const { error: deleteError } = await supabase
         .from('roadmap_milestones')
@@ -180,7 +188,8 @@ export default function EditSkillPathPage() {
           duration: formData.targetWeeks,
           difficulty: formData.difficultyLevel.charAt(0).toUpperCase() + formData.difficultyLevel.slice(1),
           hoursPerWeek: formData.hoursPerWeek,
-          userContext: formData.description || `Updated learning path for ${formData.skillName}`
+          userContext: formData.description || `Updated learning path for ${formData.skillName}`,
+          apiKey
         })
       })
 

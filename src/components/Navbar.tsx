@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
-import { Menu } from 'lucide-react'
+import { KeyRound, Menu } from 'lucide-react'
 import Logo from "./Logo"
 
 const NAV_LINKS = [
@@ -55,7 +55,17 @@ const Navbar = () => {
             <UserButton
               appearance={{ elements: { avatarBox: 'h-9 w-9' } }}
               afterSignOutUrl="/welcome"
-            />
+            >
+              {/* Roadmap generation needs the user's own Gemini key, so the
+                  settings page has to be reachable from every screen. */}
+              <UserButton.MenuItems>
+                <UserButton.Link
+                  label="Profile settings"
+                  labelIcon={<KeyRound className="h-4 w-4" strokeWidth={1.75} />}
+                  href="/profile"
+                />
+              </UserButton.MenuItems>
+            </UserButton>
           </SignedIn>
         </div>
 

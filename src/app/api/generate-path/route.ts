@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { generateLearningPath } from '@/lib/ai-service'
+import { ApiKeyError, generateLearningPath } from '@/lib/ai-service'
+import { INVALID_KEY_MESSAGE, MISSING_KEY_MESSAGE } from '@/lib/user-api-key'
 import { auth } from '@clerk/nextjs/server'
 
 export async function POST(request: NextRequest) {
@@ -12,7 +13,14 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body = await request.json()
-    const { skillName, duration, difficulty, hoursPerWeek, userContext } = body
+    const { skillName, duration, difficulty, hoursPerWeek, userContext, apiKey } = body
+
+    // The caller must bring their own Gemini key. There is intentionally no
+    // fallback to a server-owned key, so public traffic can never bill the
+    // app owner's Google AI Studio account.
+    if (typeof apiKey !== 'string' || !apiKey.trim()) {
+      return NextResponse.json({ error: MISSING_KEY_MESSAGE }, { status: 400 })
+    }
 
     // Validate input
     if (!skillName || !duration || !difficulty) {
@@ -38,26 +46,31 @@ export async function POST(request: NextRequest) {
 
     console.log(`Generating learning path for ${skillName} (${difficulty}, ${duration} weeks)`)
 
-    // Generate the learning path with AI
+    // Generate the learning path with AI, using the caller's own key.
     const learningPath = await generateLearningPath({
       skillName,
       duration,
       difficulty,
       hoursPerWeek: hoursPerWeek || 5,
-      userContext: userContext || ''
+      userContext: userContext || '',
+      apiKey
     })
 
     console.log(`Generated learning path: ${learningPath.title}`)
 
     return NextResponse.json(learningPath)
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in AI generation API:', error)
+
+    if (error instanceof ApiKeyError) {
+      return NextResponse.json({ error: INVALID_KEY_MESSAGE }, { status: 400 })
+    }
+
+    // Deliberately no `details: error.message`, since provider errors can echo
+    // back request detail including the caller's key. Diagnostics stay in logs.
     return NextResponse.json(
-      { 
-        error: 'Failed to generate learning path',
-        details: error.message 
-      },
+      { error: 'Failed to generate learning path' },
       { status: 500 }
     )
   }
