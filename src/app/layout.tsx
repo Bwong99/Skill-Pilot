@@ -16,6 +16,14 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+// ClerkProvider wraps every route, and the shared Navbar renders SignedIn /
+// SignedOut on all of them, so static prerendering forced Clerk to initialise
+// during the build. That turned a missing or wrong publishable key in the
+// deploy environment into a failed build rather than a runtime problem.
+// Nothing here is genuinely static anyway: every page's header depends on who
+// is signed in, so rendering on demand costs nothing.
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: "SkillPilot",
   description:
