@@ -1,6 +1,19 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+// This module is deliberately free of side effects. It used to construct a
+// client at module scope, which throws outright when the environment variables
+// are absent, so merely importing anything from here took down every page that
+// did. Nothing referenced that client anyway: each page builds its own with
+// createClientComponentClient().
 
-export const supabase = createClientComponentClient()
+// Both values are NEXT_PUBLIC_, so Next inlines them at build time and this
+// answers correctly in the browser. Pages that read from Supabase check it
+// first and render a placeholder rather than querying a client that has no
+// project to talk to, which is what left them spinning indefinitely.
+export function isSupabaseConfigured(): boolean {
+  return Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )
+}
 
 // Database types for TypeScript
 export type Skill = {

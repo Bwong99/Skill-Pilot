@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { MISSING_KEY_MESSAGE, getUserApiKey } from '@/lib/user-api-key'
+import ComingSoon from '@/components/ComingSoon'
+import { isSupabaseConfigured } from '@/lib/supabase-client'
 
 type SkillPath = {
   id: string
@@ -274,6 +276,12 @@ export default function EditSkillPathPage() {
     }
     
     console.log('Successfully created fallback milestones with updated time allocation')
+  }
+
+  // Reachable by direct link even when the lists are empty, so it needs the
+  // same check: the query cannot resolve without a project configured.
+  if (!isSupabaseConfigured()) {
+    return <ComingSoon />
   }
 
   if (loading) {

@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useUser } from '@clerk/nextjs'
 import { Layers } from 'lucide-react'
+import ComingSoon from '@/components/ComingSoon'
+import { isSupabaseConfigured } from '@/lib/supabase-client'
 
 type PublicSkillPath = {
   id: string
@@ -121,6 +123,12 @@ export default function ExplorePage() {
     } catch (error) {
       console.error('Error cloning roadmap:', error)
     }
+  }
+
+  // Checked before the spinner: with no Supabase project configured the query
+  // never resolves, so this would otherwise load forever.
+  if (!isSupabaseConfigured()) {
+    return <ComingSoon />
   }
 
   if (loading) {

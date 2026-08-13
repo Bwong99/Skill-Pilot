@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import DeleteConfirmModal from '@/components/DeleteConfirmModal'
 import { BookOpen, CalendarCheck, Flag, Flame, Route, TrendingUp } from 'lucide-react'
+import ComingSoon from '@/components/ComingSoon'
+import { isSupabaseConfigured } from '@/lib/supabase-client'
 
 type SkillPath = {
   id: string
@@ -156,6 +158,17 @@ export default function DashboardPage() {
 
   const handleDeleteCancel = () => {
     setDeleteModal({ isOpen: false, pathId: '', pathTitle: '' })
+  }
+
+  // Checked before the spinner: with no Supabase project configured the query
+  // never resolves, so this would otherwise load forever.
+  if (!isSupabaseConfigured()) {
+    return (
+      <ComingSoon
+        title="Your dashboard is coming soon"
+        message="Saved roadmaps are not switched on yet. You can still add your Gemini API key so everything is ready when they are."
+      />
+    )
   }
 
   if (!isLoaded || loading) {

@@ -10,6 +10,8 @@ import MilestoneExplanation from '@/components/MilestoneExplanation'
 import { BookOpen, Check, Clock, Dumbbell, Info, Network } from 'lucide-react'
 import { ExerciseIcon, ResourceIcon } from '@/components/ResourceIcon'
 import RoadmapTimeline from '@/components/visualizations/RoadmapTimeline'
+import ComingSoon from '@/components/ComingSoon'
+import { isSupabaseConfigured } from '@/lib/supabase-client'
 
 type SkillPath = {
   id: string
@@ -165,6 +167,12 @@ export default function SkillPathPage() {
       setDeleting(false)
       setDeleteModal(false)
     }
+  }
+
+  // Reachable by direct link even when the lists are empty, so it needs the
+  // same check: the query cannot resolve without a project configured.
+  if (!isSupabaseConfigured()) {
+    return <ComingSoon />
   }
 
   if (loading) {

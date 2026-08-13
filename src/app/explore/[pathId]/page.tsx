@@ -6,6 +6,8 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useUser } from '@clerk/nextjs'
 import { CalendarDays, Clock, Layers, MapPin } from 'lucide-react'
 import { ExerciseIcon, ResourceIcon } from '@/components/ResourceIcon'
+import ComingSoon from '@/components/ComingSoon'
+import { isSupabaseConfigured } from '@/lib/supabase-client'
 
 type PublicSkillPath = {
   id: string
@@ -161,6 +163,12 @@ export default function ExploreRoadmapDetailPage() {
       setCurrentWeek(weekIndex)
       setTimeout(() => setIsAnimating(false), 300)
     }
+  }
+
+  // Reachable by direct link even when the lists are empty, so it needs the
+  // same check: the query cannot resolve without a project configured.
+  if (!isSupabaseConfigured()) {
+    return <ComingSoon />
   }
 
   if (loading) {

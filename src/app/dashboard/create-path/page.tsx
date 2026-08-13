@@ -3,12 +3,25 @@
 import { useRouter } from 'next/navigation'
 import CreateSkillPathForm from '@/components/CreateSkillPathForm'
 import { CalendarClock, ListChecks, Wand2 } from 'lucide-react'
+import ComingSoon from '@/components/ComingSoon'
+import { isSupabaseConfigured } from '@/lib/supabase-client'
 
 export default function CreatePathPage() {
   const router = useRouter()
 
   const handleSuccess = (skillPathId: string) => {
     router.push(`/dashboard/paths/${skillPathId}`)
+  }
+
+  // Creating a path writes to Supabase before anything is generated, so
+  // without a project configured the form can only fail partway through.
+  if (!isSupabaseConfigured()) {
+    return (
+      <ComingSoon
+        title="Roadmap creation is coming soon"
+        message="We are not saving roadmaps just yet. Add your Gemini API key in profile settings and you will be ready the moment this opens up."
+      />
+    )
   }
 
   return (
