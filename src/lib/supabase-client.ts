@@ -8,10 +8,20 @@
 // answers correctly in the browser. Pages that read from Supabase check it
 // first and render a placeholder rather than querying a client that has no
 // project to talk to, which is what left them spinning indefinitely.
+// Presence alone is not enough. A copied .env.example leaves the placeholder
+// strings in place, which are truthy, so a presence check would wave the page
+// through to query a project that does not exist and hang on its spinner.
 export function isSupabaseConfigured(): boolean {
-  return Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
+
+  if (!url || !key) return false
+  if (!url.startsWith('https://')) return false
+
+  // Anything still carrying the sample wording from .env.example is unset in
+  // every sense that matters here.
+  return !/your-project-ref|your-anon-public-key|example\.supabase\.co/.test(
+    `${url} ${key}`
   )
 }
 
